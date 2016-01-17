@@ -1,9 +1,13 @@
 import os, sys, copy
-from sympy import *
+#from sympy import *
 import re
-import rrefT
-from problem_file import Problem 
-from search import astarSearch 
+#import rrefT
+#from problem_file import Problem 
+#from search import astarSearch 
+from readSAS import readSAS
+
+PATH_TO_FAST_DOWNWARD = '~/Desktop/FAST-DOWNWARD/'
+
 
 flagOPT                 = True
 listOfPredicates        = []
@@ -193,6 +197,16 @@ def generate_problem():
     return T
     
 if __name__ == '__main__':
+
+    
+    domainFile  = sys.argv[1]
+    problemFile = sys.argv[2]
+    cmd         = PATH_TO_FAST_DOWNWARD + 'fast-downward.py' + ' ' + domainFile + ' ' + problemFile + " --search 'astar(lmcut())' > stdout.txt"
+    os.system(cmd)
+    sas_data    = readSAS('output.sas')
+    sas_data.printOutput()
+    sys.exit(0)
+
     Mdash = generate_problem()
     prob = Problem(listOfPredicates, listOfActions, initialState, goalState, compliantConditions, goalCompliantConditions, Mdash)
     path = astarSearch(prob, flagOPT)
