@@ -182,9 +182,9 @@ def compute_matrixMdash(M):
     return MRREF
 
 def generate_problem():
-    read_grounded_domain_file('domain.pddl')
+    read_grounded_domain_file('../domains/blocks_world/domain.pddl')
     M = compute_matrixM()
-    read_initial_and_goal_states('domain.pddl', 'problem.pddl')
+    read_initial_and_goal_states('../domains/blocks_world/domain.pddl', '../domains/blocks_world/problem.pddl')
     print_predicates()
     print_actions()
     print "compliantConditions : " + str(len(compliantConditions))

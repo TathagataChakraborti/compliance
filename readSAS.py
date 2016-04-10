@@ -90,6 +90,30 @@ class readSAS:
                 self.operatorList.append(newOperator)
 
  
+    def pre_process(self, listOfPredicates, listOfActions, goalState):
+        
+        compliantConditions = copy.deepcopy(listOfPredicates)
+
+        for action in listOfActions:
+            for effect in action[1]:
+                if -1 in effect[1]:
+                    try:
+                        compliantConditions.remove(listOfPredicates[effect[0]])
+                    except:
+                        pass
+
+        goalCompliantConditions = copy.deepcopy(compliantConditions)
+        
+        for predicate in goalState:
+            if predicate == 0:
+                try:
+                    goalCompliantConditions.remove(listOfPredicates[predicate])
+                except:
+                    pass
+
+        return [compliantConditions, goalCompliantConditions]
+    
+
     def printOutput(self):
 
         print bcolors.HEADER + '\n>> Printing Parsed Output\n' + bcolors.ENDC
