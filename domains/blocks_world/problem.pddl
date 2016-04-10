@@ -10,7 +10,7 @@
 	(handempty)
 	(clear O)
 	(ontable O)
-	(clear r)
+	(clear R)
 	(on R P)
 	(ontable P)
 	(clear E)

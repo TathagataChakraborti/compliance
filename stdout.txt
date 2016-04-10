@@ -1,11 +1,5 @@
-INFO     Running translator.
-INFO     translator input: ['domains/blocks_world/domain.pddl', 'domains/blocks_world/problem.pddl']
-INFO     translator arguments: []
-INFO     translator time limit: None
-INFO     translator memory limit: None
-INFO     callstring: /usr/bin/python /home/yochan/Desktop/FAST-DOWNWARD/builds/release32/bin/translate/translate.py domains/blocks_world/domain.pddl domains/blocks_world/problem.pddl
 Parsing...
-Parsing: [0.010s CPU, 0.001s wall-clock]
+Parsing: [0.000s CPU, 0.001s wall-clock]
 Normalizing task... [0.000s CPU, 0.000s wall-clock]
 Instantiating...
 Generating Datalog program... [0.000s CPU, 0.000s wall-clock]
@@ -13,17 +7,17 @@ Normalizing Datalog program...
 Normalizing Datalog program: [0.000s CPU, 0.001s wall-clock]
 Preparing model... [0.000s CPU, 0.000s wall-clock]
 Generated 21 rules.
-Computing model... [0.000s CPU, 0.004s wall-clock]
+Computing model... [0.010s CPU, 0.004s wall-clock]
 258 relevant atoms
 168 auxiliary atoms
 426 final queue length
 703 total queue pushes
-Completing instantiation... [0.010s CPU, 0.006s wall-clock]
+Completing instantiation... [0.000s CPU, 0.006s wall-clock]
 Instantiating: [0.010s CPU, 0.012s wall-clock]
 Computing fact groups...
 Finding invariants...
 10 initial candidates
-Finding invariants: [0.000s CPU, 0.004s wall-clock]
+Finding invariants: [0.010s CPU, 0.004s wall-clock]
 Checking invariant weight... [0.000s CPU, 0.000s wall-clock]
 Instantiating groups... [0.000s CPU, 0.000s wall-clock]
 Collecting mutex groups... [0.000s CPU, 0.000s wall-clock]
@@ -31,7 +25,7 @@ Choosing groups...
 9 uncovered facts
 Choosing groups: [0.000s CPU, 0.000s wall-clock]
 Building translation key... [0.000s CPU, 0.000s wall-clock]
-Computing fact groups: [0.000s CPU, 0.005s wall-clock]
+Computing fact groups: [0.010s CPU, 0.005s wall-clock]
 Building STRIPS to SAS dictionary... [0.000s CPU, 0.000s wall-clock]
 Building dictionary for full mutex groups... [0.000s CPU, 0.000s wall-clock]
 Building mutex information...
@@ -40,7 +34,7 @@ Translating task...
 Processing axioms...
 Simplifying axioms... [0.000s CPU, 0.000s wall-clock]
 Processing axioms: [0.000s CPU, 0.000s wall-clock]
-Translating task: [0.010s CPU, 0.007s wall-clock]
+Translating task: [0.000s CPU, 0.007s wall-clock]
 184 effect conditions simplified
 0 implied preconditions added
 Detecting unreachable propositions...
@@ -59,103 +53,4 @@ Translator axioms: 0
 Translator task size: 1210
 Translator peak memory: 32352 KB
 Writing output... [0.000s CPU, 0.002s wall-clock]
-Done! [0.040s CPU, 0.032s wall-clock]
-INFO     Running preprocessor (release32).
-INFO     preprocessor input: output.sas
-INFO     preprocessor arguments: []
-INFO     preprocessor time limit: None
-INFO     preprocessor memory limit: None
-INFO     callstring: /home/yochan/Desktop/FAST-DOWNWARD/builds/release32/bin/preprocess < output.sas
-Building causal graph...
-The causal graph is not acyclic.
-17 variables of 17 necessary
-9 of 17 mutex groups necessary.
-128 of 128 operators necessary.
-0 of 0 axiom rules necessary.
-Building domain transition graphs...
-solveable in poly time 0
-Building successor generator...
-Preprocessor facts: 90
-Preprocessor derived variables: 0
-Preprocessor task size: 1138
-Writing output...
-done
-INFO     Running search (release32).
-INFO     search input: output
-INFO     search arguments: ['--search', 'astar(lmcut())']
-INFO     search time limit: None
-INFO     search memory limit: None
-INFO     search executable: /home/yochan/Desktop/FAST-DOWNWARD/builds/release32/bin/downward
-INFO     callstring: /home/yochan/Desktop/FAST-DOWNWARD/builds/release32/bin/downward --search 'astar(lmcut())' --internal-plan-file sas_plan < output
-reading input... [t=2.1162e-05s]
-Simplifying transitions... done!
-done reading input! [t=0.00266192s]
-packing state variables...done! [t=0.0026703s]
-Variables: 17
-Facts: 90
-Bytes per state: 8
-Building successor generator...done! [t=0.00288763s]
-done initalizing global data [t=0.00289213s]
-Conducting best first search with reopening closed nodes, (real) bound = 2147483647
-Initializing landmark cut heuristic...
-New best heuristic value for lmcut: 6
-[g=0, 1 evaluated, 0 expanded, t=0.00316108s, 3364 KB]
-f = 6 [1 evaluated, 0 expanded, t=0.00320016s, 3364 KB]
-Initial heuristic value for lmcut: 6
-f = 7 [6 evaluated, 1 expanded, t=0.00336965s, 3364 KB]
-f = 8 [11 evaluated, 2 expanded, t=0.00350261s, 3364 KB]
-New best heuristic value for lmcut: 5
-[g=3, 12 evaluated, 3 expanded, t=0.0035533s, 3364 KB]
-New best heuristic value for lmcut: 4
-[g=4, 17 evaluated, 4 expanded, t=0.0037009s, 3364 KB]
-New best heuristic value for lmcut: 3
-[g=5, 23 evaluated, 5 expanded, t=0.00384253s, 3364 KB]
-New best heuristic value for lmcut: 2
-[g=6, 29 evaluated, 6 expanded, t=0.00396907s, 3364 KB]
-New best heuristic value for lmcut: 1
-[g=7, 35 evaluated, 7 expanded, t=0.00408409s, 3364 KB]
-New best heuristic value for lmcut: 0
-[g=8, 40 evaluated, 8 expanded, t=0.00418062s, 3364 KB]
-Solution found!
-Actual search time: 0.00102669s [t=0.00425515s]
-unstack d a (1)
-put-down d (1)
-unstack a c (1)
-put-down a (1)
-pick-up c (1)
-stack c a (1)
-pick-up d (1)
-stack d c (1)
-Plan length: 8 step(s).
-Plan cost: 8
-Expanded 9 state(s).
-Reopened 0 state(s).
-Evaluated 44 state(s).
-Evaluations: 44
-Generated 50 state(s).
-Dead ends: 0 state(s).
-Expanded until last jump: 2 state(s).
-Reopened until last jump: 0 state(s).
-Evaluated until last jump: 11 state(s).
-Generated until last jump: 11 state(s).
-Number of registered states: 44
-Search time: 0.00123512s
-Total time: 0.00425788s
-Solution found.
-Peak memory: 3364 KB
-INFO     Running validate.
-INFO     validate input: ['domains/blocks_world/domain.pddl', 'domains/blocks_world/problem.pddl', 'sas_plan']
-INFO     validate arguments: []
-INFO     validate time limit: None
-INFO     validate memory limit: None
-INFO     validate executable: /home/yochan/Desktop/FAST-DOWNWARD/builds/release32/bin/validate
-INFO     callstring: /home/yochan/Desktop/FAST-DOWNWARD/builds/release32/bin/validate domains/blocks_world/domain.pddl domains/blocks_world/problem.pddl sas_plan
-Checking plan: sas_plan
-Plan executed successfully - checking goal
-Plan valid
-Final value: 8 
-
-Successful plans:
-Value: 8
- sas_plan 8 
-
+Done! [0.030s CPU, 0.032s wall-clock]

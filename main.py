@@ -1,180 +1,32 @@
+#!/usr/bin/python
 import os, sys, copy
-#from sympy import *
+from sympy import *
 import re
 #import rrefT
 #from problem_file import Problem 
 #from search import astarSearch 
 from readSAS import readSAS
+from utils import bcolors
 
-PATH_TO_FAST_DOWNWARD = '~/Desktop/FAST-DOWNWARD/'
+SAS_GENERATOR_COMMAND = "~/Desktop/FAST-DOWNWARD/src/translate/translate.py $1 $2 > stdout.txt"
 
+def compute_transform(listOfPredicates, listOfActions, goalCompliantConditions):
 
-flagOPT                 = True
-listOfPredicates        = []
-listOfActions           = []
-initialState            = []
-goalState               = []
-compliantConditions     = []
-goalCompliantConditions = []
+    print bcolors.HEADER + '\n>> Computing transform ' + bcolors.ENDC
+    M = zeros(len(goalCompliantConditions), len(listOfActions))
 
-def print_actions():
-    print "\n*** ACTION DESCRIPTIONS ***"
     for action in listOfActions:
-        print "\nAction Name: " + action[0]
-        print "preconditions: " + str(action[1])
-        print "effects: " + str(action[2])
-        print "cost: " + str(action[3]) + '\n'
+        for effect in action[1]:
+            print action, effect
+            print listOfPredicates[effect[0]]
 
-def print_predicates():
-    print "*** DOMAIN PREDICATES ***\n"
-    for predicate in listOfPredicates:
-        print predicate
+            if listOfPredicates[effect[0]] in goalCompliantConditions:
+                print goalCompliantConditions.index(listOfPredicates[effect[0]])
+                print listOfActions.index(action)
+                print effect[1][1] - effect[1][0]
+                M[goalCompliantConditions.index(listOfPredicates[effect[0]])][listOfActions.index(action)] = effect[1][1] - effect[1][0]
 
-
-def read_initial_and_goal_states(domain_file, problem_file):
-
-    global initialState, goalState
-    initialState = [0]*len(listOfPredicates)
-    goalState    = [0]*len(listOfPredicates)
-    testEmptyString  = re.compile('\s*[A-Z]+\s*', re.IGNORECASE)
-    problem_file = open(problem_file, 'r')
-    readInitial  = False
-    readGoal     = False
-
-    for line in problem_file:
-
-        if readInitial:
-            cc = line[line.find("(")+1:line.find(")")].strip()
-            if 'cost' in cc: continue
-            elif not testEmptyString.match(cc):
-                readInitial = False
-            else:
-                cc = cc.replace(" ","_")
-                initialState[listOfPredicates.index(cc)] = 1
-
-        if readGoal:
-            cc = line[line.find("(")+1:line.find(")")].strip()
-            if not testEmptyString.match(cc):
-                readGoal = False
-            else:
-                if not cc == 'and':
-                    cc = cc.replace(" ","_")
-                    goalState[listOfPredicates.index(cc)] = 1
-
-        if 'init' in line:
-            readInitial = True
-
-        if 'goal' in line:
-            readGoal    = True
-
-    problem_file.close()
-
-
-def read_grounded_domain_file(fileName):
-
-    global listOfPredicates, listOfActions
-    domain_file      = open(fileName, 'r')
-    testEmptyString  = re.compile('\s*[A-Z]+\s*', re.IGNORECASE)
-    newAction        = []
-    readPredicates   = False
-    readActions      = False
-    readActionName   = False
-    readActionPre    = False
-    readActionEff    = False
-    paranFlag        = 0
-
-    for line in domain_file:
-
-        if readPredicates:
-            cc = line[line.find("(")+1:line.find(")")].strip()
-            if not testEmptyString.match(cc):
-                readPredicates = False
-            else:
-                listOfPredicates.append(cc)
-                
-        if readActions and 'action' in line:
-            newAction.append(line.split(' ')[1].strip());
-            newPre = []
-            newEff = []
-            cost = 0
-            for ll in domain_file:
-                flag = 0
-                if ':precondition' in ll:
-                    flag = 1
-                    for llpre in domain_file:
-                        if not '(and' in llpre:
-                            if llpre.strip() == ')':
-                                break
-                            else:
-                                newPre.append(llpre[llpre.find("(")+1:llpre.find(")")].strip())
-
-                if ':effect' in ll:
-                    flag = 2
-                    for lleff in domain_file:
-                        if '(increase' in lleff:
-                            start = lleff.find(')')+2
-                            end   = lleff.find(')', start)
-                            cost  = int(lleff[start:end]) 
-                        else:
-                            if not '(and' in lleff:
-                                if lleff.strip() == ')':
-                                    break
-                                else:
-                                    cc = lleff[lleff.find("(")+1:lleff.find(")")].strip()
-                                    if 'not' in cc:
-                                        cc = " ".join(cc.split("(")).replace("   "," ")
-                                    newEff.append(cc)
-
-                if flag == 2:
-                    newAction.append(newPre)
-                    newAction.append(newEff)
-                    newAction.append(cost)
-                    listOfActions.append(newAction)
-                    newAction = []
-                    break
-
-        if '(:predicates' in line:
-            readPredicates = True
-
-        if '(:functions' in line:
-            readActions    = True
-
-    domain_file.close()
-
-
-def compute_matrixM():
-
-    global compliantConditions
-    compliantConditions = copy.deepcopy(listOfPredicates)
-
-    for predicate in listOfPredicates:
-        for action in listOfActions:
-            if bool(predicate in action[1]) != bool(predicate in action[2] or ('not ' + predicate) in action[2]):
-                if predicate in compliantConditions:
-                    compliantConditions.remove(predicate)
-
-    compliantConditions = copy.deepcopy(listOfPredicates)     #hola - delete
-    M = zeros(len(compliantConditions), len(listOfActions))
-    for i in range(len(listOfActions)):
-        predList = listOfActions[i][2]
-        for pred in compliantConditions:
-            if pred in predList:
-                M[compliantConditions.index(pred), i] = 1
-            elif 'not ' + pred in predList:
-                M[compliantConditions.index(pred), i] = -1
-
-    return M
-
-def compute_matrixMdash(M):
-    global goalCompliantConditions
-    Mdash = zeros(0,len(listOfActions))
-    for i in range(len(goalState)):
-        #if bool(goalState[i] == 1) and bool(listOfPredicates[i] in compliantConditions):
-        if listOfPredicates[i] in compliantConditions: #hola - delete
-            Mdash = Mdash.row_insert(Mdash.shape[0], M[i,:])
-            goalCompliantConditions.append(listOfPredicates[i])
-
-    MRREF = rrefT.transformationToRref(Mdash)
+    MRREF = rrefT.transformationToRref(M)
     print "goalCompliantConditions : " + str(len(goalCompliantConditions))
     print "\n*** matrix M ***"
     print [M, M.shape]
@@ -182,34 +34,83 @@ def compute_matrixMdash(M):
     print MRREF[0]
     print "\n*** matrix T ***"
     print MRREF[1]
-    print "\nTest M' = T*M : " + str(MRREF[0][0] == MRREF[1][0]*Mdash)
+    print "\nTest M' = T*M : " + str(MRREF[0][0] == MRREF[1][0]*M)
+    
+    print bcolors.OKGREEN + "\n>> Transform passes test - M' = T*M" + bcolors.ENDC
     return MRREF
 
-def generate_problem():
-    read_grounded_domain_file('domain.pddl')
-    M = compute_matrixM()
-    read_initial_and_goal_states('domain.pddl', 'problem.pddl')
-    print_predicates()
-    print_actions()
-    print "compliantConditions : " + str(len(compliantConditions))
-    print "listOfPredicates : " + str(len(listOfPredicates))
-    T = compute_matrixMdash(M)
-    return T
-    
-if __name__ == '__main__':
 
+def pre_process(listOfPredicates, listOfActions, goalState):
+
+    compliantConditions = copy.deepcopy(listOfPredicates)
+
+    for action in listOfActions:
+        for effect in action[1]:
+            if -1 in effect[1]:
+                try:
+                    compliantConditions.remove(listOfPredicates[effect[0]])
+                except:
+                    pass
+
+    goalCompliantConditions = copy.deepcopy(compliantConditions)
     
-    domainFile  = sys.argv[1]
-    problemFile = sys.argv[2]
-    cmd         = PATH_TO_FAST_DOWNWARD + 'fast-downward.py' + ' ' + domainFile + ' ' + problemFile + " --search 'astar(lmcut())' > stdout.txt"
-    os.system(cmd)
-    sas_data    = readSAS('output.sas')
-    sas_data.printOutput()
+    for predicate in goalState:
+        if predicate == 0:
+            try:
+                goalCompliantConditions.remove(listOfPredicates[predicate])
+            except:
+                pass
+
+    return [compliantConditions, goalCompliantConditions]
+
+
+class Planner():
+
+    def __init__(self, domainFile, problemFile, sas_data):
+        pass
+
+
+class Estimator():
+
+    def __init__(self, domainFile, problemFile, sas_data):
+        pass
+
+
+### main function ###
+
+if __name__ == '__main__':
+    
+    try:
+
+        domainFile  = sys.argv[1]
+        problemFile = sys.argv[2]
+
+        try:
+        
+            cmd = SAS_GENERATOR_COMMAND.replace('$1', domainFile).replace('$2', problemFile)
+            os.system(cmd)
+
+        except:
+            raise Exception('Failed to generate SAS file! Check input domain and problem files.')
+
+    except:
+        raise Exception('Invalid Input! Usage: >> python main.py <domainfile> <problemfile>')
+
+    debug_flag = '--debug' in '_'.join(sys.argv)
+
+    # parse SAS data #
+    sas_data = readSAS('output.sas', debug_flag)
+    [listOfPredicates, initialState, goalState, listOfActions] = sas_data.returnParsedData()
+    [compliantConditions, goalCompliantConditions] = pre_process(listOfPredicates, listOfActions, goalState)
+
+    # generate transformation #
+    T = compute_transform(listOfPredicates, listOfActions, goalCompliantConditions, debug_flag)
+
     sys.exit(0)
 
-    Mdash = generate_problem()
-    prob = Problem(listOfPredicates, listOfActions, initialState, goalState, compliantConditions, goalCompliantConditions, Mdash)
-    path = astarSearch(prob, flagOPT)
+    # solve #
+    problem_object = Problem(listOfPredicates, listOfActions, initialState, goalState, compliantConditions, goalCompliantConditions, T)
+    path           = astarSearch(problem_object)
     if path:    print "*** FINAL PLAN: ***\n" + str(path[1]) + "\n" + "Cost of Plan: " + str(len(path[1]))
     else:       print "*** NO PLAN FOUND ***"
     
