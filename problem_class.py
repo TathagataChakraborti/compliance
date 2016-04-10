@@ -46,7 +46,7 @@ class Problem:
     def getSuccessors(self, state):
 
         oldState         = state[0]
-        currentCost      = state[2]
+        currentCost      = len(state[1])
         listOfSuccessors = []
 
         for action in self.listOfActions:

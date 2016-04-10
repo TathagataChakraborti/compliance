@@ -2,7 +2,7 @@
 from sympy import *
 from utils import bcolors
 from utils import PriorityQueue
-import copy, numpy
+import copy, numpy, math
 from Evaluator import Evaluator
 
 ### planner class ###
@@ -14,8 +14,9 @@ class Planner(Evaluator):
         Evaluator.__init__(self, listOfPredicates, listOfActions, initialState, goalState, compliantConditions, goalCompliantConditions, Mrref, cost_flag)
 
     
-    def aStarSearch(self, heuristic = 'equality'):
-        
+    def aStarSearch(self, heuristicName = 'equality'):
+
+        method = getattr(self, 'heuristic_' + heuristicName)
         print bcolors.HEADER + "\n>> Running A* Search" + bcolors.ENDC
         
         startState              = self.getStartState()
@@ -24,7 +25,7 @@ class Planner(Evaluator):
         listOfPredicates        = self.listOfPredicates
         goalCompliantConditions = self.goalCompliantConditions
 
-        fval                    = float(self.heuristic_equality(startState))
+        fval                    = float(method(startState))
         print bcolors.OKGREEN + "--> Initial heuristic estimate = " + bcolors.OKBLUE + str(fval) + bcolors.ENDC
 
         fringe                  = PriorityQueue()
@@ -35,11 +36,8 @@ class Planner(Evaluator):
 
         while not fringe.isEmpty():
 
-            printloop += 1
-            if printloop == 300:
-                printloop = 0
-                print bcolors.OKGREEN + "--> Number of states expanded > " + str(numberOfStatesExpanded) + bcolors.ENDC
-            
+            if numberOfStatesExpanded%100 == 0: print bcolors.OKGREEN + "--> Number of states expanded > " + str(numberOfStatesExpanded) + bcolors.ENDC
+                
             node = fringe.pop()
             if self.isGoalState(node[0]):
                 print bcolors.OKGREEN + "--> Goal Found. Final number of states expanded = " + bcolors.OKBLUE + str(numberOfStatesExpanded) + bcolors.ENDC
@@ -55,13 +53,10 @@ class Planner(Evaluator):
                     put = successor_list.pop()
                     if put[0] not in closed:
 
-                        hval = self.heuristic_equality(put[0])
+                        hval = float(self.heuristic_equality(put[0]))
                         if hval != -1:
-                            newnode = copy.deepcopy(node)
-                            newnode[0] = put[0]
-                            newnode[1] = newnode[1] + [put[1]]
-                            newnode[2] = put[2] + hval
-                            fringe.push(newnode,newnode[2])
+                            newnode = [put[0], node[1] + [put[1]], put[2] + hval]
+                            fringe.push(newnode, newnode[2])
 
         print bcolors.OKGREEN + "--> Search Terminated. Final number of states expanded = " + bcolors.OKBLUE + str(numberOfStatesExpanded) + bcolors.ENDC
         return None

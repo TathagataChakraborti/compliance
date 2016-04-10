@@ -13,13 +13,20 @@ class Evaluator(Problem):
     def __init__(self, listOfPredicates, listOfActions, initialState, goalState, compliantConditions, goalCompliantConditions, Mrref, cost_flag = False):
         
         Problem.__init__(self, listOfPredicates, listOfActions, initialState, goalState, compliantConditions, goalCompliantConditions, Mrref, cost_flag)
+
+
+    def evaluate(self, state, heuristicName = 'equality'):
         
-        
+        method = getattr(self, 'heuristic_' + heuristicName)
+        return method(state)
+
+
     def heuristic_equality(self, state):
 
         [T, r, Z] = self.getTransform()
         current   = zeros(len(self.goalCompliantConditions),1)
         goal      = zeros(len(self.goalCompliantConditions),1)
+
 
         for idx in range(len(self.goalCompliantConditions)):
             
@@ -41,8 +48,8 @@ class Evaluator(Problem):
             return l1norm
 
 
-    def heuristic_milp(self, state, problem):
+    def heuristic_milp(self, state):
         return 0.0
 
-    def heuristic_trivial(self, state, problem):
+    def heuristic_trivial(self, state):
         return 0.0
