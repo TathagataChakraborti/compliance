@@ -61,7 +61,7 @@ def compute_transform(listOfPredicates, listOfActions, goalCompliantConditions, 
         print "\nTest M' = T*M : " + str(MRREF[0][0] == MRREF[1][0]*M)
 
     print bcolors.OKGREEN + "--> Transform passes test - M' = T*M" + bcolors.ENDC
-    return MRREF
+    return [MRREF, M]
 
 
 

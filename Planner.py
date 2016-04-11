@@ -9,9 +9,9 @@ from Evaluator import Evaluator
 
 class Planner(Evaluator):
 
-    def __init__(self, listOfPredicates, listOfActions, initialState, goalState, compliantConditions, goalCompliantConditions, Mrref, cost_flag = False):
+    def __init__(self, listOfPredicates, listOfActions, initialState, goalState, compliantConditions, goalCompliantConditions, Mrref, M, cost_flag = False):
         
-        Evaluator.__init__(self, listOfPredicates, listOfActions, initialState, goalState, compliantConditions, goalCompliantConditions, Mrref, cost_flag)
+        Evaluator.__init__(self, listOfPredicates, listOfActions, initialState, goalState, compliantConditions, goalCompliantConditions, Mrref, M, cost_flag)
 
     
     def aStarSearch(self, heuristicName = 'equality'):

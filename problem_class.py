@@ -7,7 +7,7 @@ from sympy import *
 
 class Problem:
 
-    def __init__(self, listOfPredicates, listOfActions, initialState, goalState, compliantConditions, goalCompliantConditions, Mrref, cost_flag = False):
+    def __init__(self, listOfPredicates, listOfActions, initialState, goalState, compliantConditions, goalCompliantConditions, Mrref, M, cost_flag = False):
 
         print bcolors.HEADER + '\n>> Building problem instance ' + bcolors.ENDC
     
@@ -17,6 +17,7 @@ class Problem:
         self.initialState            = initialState
         self.compliantConditions     = compliantConditions 
         self.goalCompliantConditions = goalCompliantConditions
+        self.M                       = M
         self.cost_flag               = cost_flag
         
         self.__cache_transform__(Mrref)

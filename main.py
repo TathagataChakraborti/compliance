@@ -40,10 +40,10 @@ if __name__ == '__main__':
     [compliantConditions, goalCompliantConditions] = sas_data.pre_process(listOfPredicates, listOfActions, goalState)
 
     # generate transformation #
-    Mrref = compute_transform(listOfPredicates, listOfActions, goalCompliantConditions, debug_flag)
+    Mrref, M = compute_transform(listOfPredicates, listOfActions, goalCompliantConditions, debug_flag)
 
     # evaluate #
-    evaluation_object = Evaluator(listOfPredicates, listOfActions, initialState, goalState, compliantConditions, goalCompliantConditions, Mrref, cost_flag)
+    evaluation_object = Evaluator(listOfPredicates, listOfActions, initialState, goalState, compliantConditions, goalCompliantConditions, Mrref, M, cost_flag)
     print bcolors.HEADER + "\n>> Initial state evaluation = " + bcolors.OKBLUE + str(float(evaluation_object.evaluate(initialState))) + bcolors.ENDC    
     
     # solve #
