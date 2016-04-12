@@ -53,7 +53,7 @@ class Planner(Evaluator):
                     put = successor_list.pop()
                     if put[0] not in closed:
 
-                        hval = float(self.heuristic_equality(put[0]))
+                        hval = float(method(put[0]))
                         if hval != -1:
                             newnode = [put[0], node[1] + [put[1]], put[2] + hval]
                             fringe.push(newnode, newnode[2])

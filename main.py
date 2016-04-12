@@ -7,7 +7,7 @@ from readSAS import readSAS
 from matpy import compute_transform
 from utils import bcolors
 
-SAS_GENERATOR_COMMAND = "~/Desktop/FAST-DOWNWARD/src/translate/translate.py $1 $2 > stdout.txt"
+SAS_GENERATOR_COMMAND = "rm -f output.sas && ~/Desktop/FAST-DOWNWARD/src/translate/translate.py $1 $2 > stdout.txt"
 
 ### main function ###
 
@@ -31,24 +31,35 @@ if __name__ == '__main__':
     except:
         raise Exception('Invalid Input! Usage: >> python main.py <domainfile> <problemfile>')
 
-    debug_flag = '--debug' in sys.argv
-    cost_flag  = '--cost' in sys.argv
+    debug_flag    = '--debug' in sys.argv
+    cost_flag     = '--cost' in sys.argv
+    
+    try:
+        if sys.argv[3].strip() == '-h':
+            heuristicName = sys.argv[4].strip()
+            print 
+        else:
+            raise Exception('Invalid Input! Usage: >> python main.py <domainfile> <problemfile> -h <heuristic_name>')
+    except:
+        heuristicName = 'equality'
+        print bcolors.OKGREEN + "--> Default heuristic 'equality'" + bcolors.ENDC
 
     # parse SAS data #
     sas_data = readSAS('output.sas', debug_flag)
-    [listOfPredicates, initialState, goalState, listOfActions] = sas_data.returnParsedData()
-    [compliantConditions, goalCompliantConditions] = sas_data.pre_process(listOfPredicates, listOfActions, goalState)
+    listOfPredicates, initialState, goalState, listOfActions = sas_data.returnParsedData()
+    compliantConditions, goalCompliantConditions             = sas_data.pre_process(listOfPredicates, listOfActions, goalState)
 
     # generate transformation #
     Mrref, M = compute_transform(listOfPredicates, listOfActions, goalCompliantConditions, debug_flag)
 
     # evaluate #
     evaluation_object = Evaluator(listOfPredicates, listOfActions, initialState, goalState, compliantConditions, goalCompliantConditions, Mrref, M, cost_flag)
-    print bcolors.HEADER + "\n>> Initial state evaluation = " + bcolors.OKBLUE + str(float(evaluation_object.evaluate(initialState))) + bcolors.ENDC    
+    print bcolors.HEADER + "\n>> Initial state evaluation = " + bcolors.OKBLUE + str(float(evaluation_object.evaluate(initialState, heuristicName))) + bcolors.ENDC    
+    #sys.exit(0)
     
     # solve #
-    plan_object = Planner(listOfPredicates, listOfActions, initialState, goalState, compliantConditions, goalCompliantConditions, Mrref, cost_flag)
-    [plan, cost] = plan_object.aStarSearch()
+    plan_object = Planner(listOfPredicates, listOfActions, initialState, goalState, compliantConditions, goalCompliantConditions, Mrref, M, cost_flag)
+    plan, cost  = plan_object.aStarSearch(heuristicName)
 
     if plan:    
         print bcolors.HEADER + "\n>> FINAL PLAN\n--> " + bcolors.OKBLUE + '\n--> '.join(plan) + "\n" + bcolors.OKGREEN + "\nCost of Plan: " + str(cost) + '\n' + bcolors.ENDC
