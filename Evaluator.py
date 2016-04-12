@@ -4,7 +4,7 @@ from utils import bcolors
 from utils import PriorityQueue
 from problem_class import Problem
 import copy, numpy
-#import gurobipy
+import gurobipy
 
 ### evaluator class ###
 
@@ -37,9 +37,7 @@ class Evaluator(Problem):
         Td  = T*d
 
         if sum(Td[r+1:]) != 0:
-
             return -1
-
         else:
 
             c   = Matrix(Td[:r])
@@ -53,3 +51,8 @@ class Evaluator(Problem):
 
     def heuristic_trivial(self, state):
         return 0.0
+
+
+    def __cost_function_milp__(self):
+        return 0.0
+
