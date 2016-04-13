@@ -79,7 +79,7 @@ class Evaluator(Problem):
         status = m.status
         if status == GRB.OPTIMAL:
             solution_list = m.getVars()
-            #for variable in solution_list:
+             #for variable in solution_list:
                 #if variable.X > 0.5: print bcolors.OKBLUE + '-->> ' + variable.VarName + bcolors.ENDC
             return m.ObjVal
         else:
@@ -99,20 +99,11 @@ class Evaluator(Problem):
         expr = K*quicksum(variables[action[0]] for action in self.listOfActions)
         return expr
     
-    ''' Real valued linear program with non-integer penalization added '''
-    def heuristic_penalize_non_integer_obj(self, state):
-      return self.heuristic_calculator(state, self.__cost_penalize_non_integer_obj__, False)
-    
-    def __cost_penalize_non_integer_obj__(self, variables):
-        K = 1.0
-        expr = K*quicksum(variables[action[0]] for action in self.listOfActions)
-        for action in self.listOfActions:
-            expr += reduce(lambda x,y: x*y, [(action[0]-i)*(action[0]-i) for i in xrange(6)])
-    
     ''' Real valued linear program with l1 norm '''
     def heuristic_real_l1(self, state):
-      return self.heuristic_calculator(state, self.__cost_integer_l1__, False)
+      return self.heuristic_calculator(state, self.__cost_real_l1__, False)
       
     def __cost_real_l1__(self, variables):
         K = 1.0
         expr = K*quicksum(variables[action[0]] for action in self.listOfActions)
+        return expr
