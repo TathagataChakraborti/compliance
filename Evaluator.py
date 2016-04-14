@@ -65,7 +65,7 @@ class Evaluator(Problem):
         delta     = (goal - current)
         
         for gc_var in self.goalCompliantConditions:
-            m.addConstr(quicksum(self.M[self.goalCompliantConditions.index(gc_var), self.listOfActions.index(action)]*variables[action[0]] for action in self.listOfActions) == delta[self.goalCompliantConditions.index(gc_var)])
+            m.addConstr(quicksum(self.M[self.goalCompliantConditions.index(gc_var), self.listOfActions.index(action)]*variables[action[0]] for action in self.listOfActions) >= delta[self.goalCompliantConditions.index(gc_var)])
 
         m.setObjective(self.__cost_function_milp__(variables))
         m.params.OutputFlag = 0
@@ -74,8 +74,8 @@ class Evaluator(Problem):
         status = m.status
         if status == GRB.OPTIMAL:
             solution_list = m.getVars()
-            #for variable in solution_list:
-                #if variable.X > 0.5: print bcolors.OKBLUE + '-->> ' + variable.VarName + bcolors.ENDC
+            for variable in solution_list:
+                if variable.X > 0.5: print bcolors.OKBLUE + '-->> ' + variable.VarName + bcolors.ENDC
             return m.ObjVal
         else:
             print bcolors.OKGREEN + '--> Warning! Optimization stopped with Code ' + bcolors.OKBLUE + str(status) + bcolors.ENDC

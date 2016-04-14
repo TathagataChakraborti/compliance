@@ -40,7 +40,7 @@ def transformationToRref(M):
 
 def compute_transform(listOfPredicates, listOfActions, goalCompliantConditions, flag = False):
 
-    print bcolors.HEADER + '\n>> Computing transform ' + bcolors.ENDC
+    print bcolors.HEADER + '>> Computing transform ' + bcolors.ENDC
     M = [[0 for act in listOfActions] for pred in goalCompliantConditions]
 
     for action in listOfActions:

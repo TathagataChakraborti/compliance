@@ -4,36 +4,75 @@ from problem_class import Problem
 from Planner import Planner
 from Evaluator import Evaluator
 from readSAS import readSAS
+from readPDDL import readPDDL
 from matpy import compute_transform
 from utils import bcolors
 
 SAS_GENERATOR_COMMAND = "rm -f output.sas && ~/Desktop/FAST-DOWNWARD/src/translate/translate.py $1 $2 > stdout.txt"
+PR2PLAN_COMMAND       = "rm -f pr-domain.pddl pr-problem.pddl && ~/pr2plan -d $1 -i $2 -o obs.dat > stdout.txt"
 
 ### main function ###
 
 if __name__ == '__main__':
     
+    debug_flag    = '--debug' in sys.argv
+    cost_flag     = '--cost' in sys.argv
+
     try:
 
         print bcolors.HEADER + '\n>> Reading data' + bcolors.ENDC
 
         domainFile  = sys.argv[1]
         problemFile = sys.argv[2]
-
-        try:
         
-            cmd = SAS_GENERATOR_COMMAND.replace('$1', domainFile).replace('$2', problemFile)
-            os.system(cmd)
+        if '--sas' in sys.argv:
+            
+            try:
+                
+                cmd = SAS_GENERATOR_COMMAND.replace('$1', domainFile).replace('$2', problemFile)
+                os.system(cmd)
+                grounded_data = readSAS('output.sas', debug_flag)
+                
+            except:
+                raise Exception('Failed to generate SAS file! Check input domain and problem files.')
 
-        except:
-            raise Exception('Failed to generate SAS file! Check input domain and problem files.')
+        else:
+
+            try:
+                
+                cmd = PR2PLAN_COMMAND.replace('$1', domainFile).replace('$2', problemFile)
+                os.system(cmd)
+
+                domainFile  = 'pr-domain.pddl'
+                problemFile = 'pr-problem.pddl'
+
+                temp = ''
+                with open(domainFile, 'r') as tempFile:
+                    for line in tempFile:
+                        if 'EXPLAIN' not in line:
+                            temp += line
+
+                with open(domainFile, 'w') as tempFile:
+                    tempFile.write(temp)
+
+                temp = ''
+                with open(problemFile, 'r') as tempFile:
+                    for line in tempFile:
+                        if 'EXPLAIN' not in line:
+                            temp += line
+
+                with open(problemFile, 'w') as tempFile:
+                    tempFile.write(temp)
+
+                grounded_data = readPDDL(domainFile, problemFile, debug_flag)
+
+            except:
+                raise Exception('Failed to generate grounded files.')
 
     except:
         raise Exception('Invalid Input! Usage: >> python main.py <domainfile> <problemfile>')
 
-    debug_flag    = '--debug' in sys.argv
-    cost_flag     = '--cost' in sys.argv
-    
+
     try:
         if sys.argv[3].strip() == '-h':
             heuristicName = sys.argv[4].strip()
@@ -44,10 +83,8 @@ if __name__ == '__main__':
         heuristicName = 'equality'
         print bcolors.OKGREEN + "--> Default heuristic 'equality'" + bcolors.ENDC
 
-    # parse SAS data #
-    sas_data = readSAS('output.sas', debug_flag)
-    listOfPredicates, initialState, goalState, listOfActions = sas_data.returnParsedData()
-    compliantConditions, goalCompliantConditions             = sas_data.pre_process(listOfPredicates, listOfActions, goalState)
+    # parse SAS/PDDL data #
+    listOfPredicates, initialState, goalState, listOfActions, compliantConditions, goalCompliantConditions = grounded_data.returnParsedData()
 
     # generate transformation #
     Mrref, M = compute_transform(listOfPredicates, listOfActions, goalCompliantConditions, debug_flag)
@@ -55,7 +92,7 @@ if __name__ == '__main__':
     # evaluate #
     evaluation_object = Evaluator(listOfPredicates, listOfActions, initialState, goalState, compliantConditions, goalCompliantConditions, Mrref, M, cost_flag)
     print bcolors.HEADER + "\n>> Initial state evaluation = " + bcolors.OKBLUE + str(float(evaluation_object.evaluate(initialState, heuristicName))) + bcolors.ENDC    
-    #sys.exit(0)
+    sys.exit(0)
     
     # solve #
     plan_object = Planner(listOfPredicates, listOfActions, initialState, goalState, compliantConditions, goalCompliantConditions, Mrref, M, cost_flag)

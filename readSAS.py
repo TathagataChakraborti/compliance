@@ -8,11 +8,13 @@ class readSAS:
 
     def __init__(self, fileName, flag = False):
 
-        self.fileName     = fileName
-        self.variableList = []
-        self.operatorList = []
-        self.initState    = []
-        self.goalState    = []
+        self.fileName                = fileName
+        self.variableList            = []
+        self.operatorList            = []
+        self.initState               = []
+        self.goalState               = []
+        self.compliantConditions     = []
+        self.goalCompliantConditions = []
         self.parseSASfile()
 
         if flag:
@@ -49,29 +51,30 @@ class readSAS:
             if 'begin_state' in newline:
 
                 print bcolors.OKBLUE + '\t-> ...\n\t-> Reading initial state...' + bcolors.ENDC
-                newline = sas_file.readline().strip()
+                newline       = sas_file.readline().strip()
                 while 'end_state' not in newline:
                     self.initState.append(int(newline))
-                    newline = sas_file.readline().strip()
+                    newline   = sas_file.readline().strip()
 
                 
             if 'begin_goal' in newline:
 
                 print bcolors.OKBLUE + '\t-> ...\n\t-> Reading goal state...\n\t-> ...' + bcolors.ENDC
                 self.goalState = copy.deepcopy(self.initState)
-                newline = sas_file.readline().strip()
-                newline = sas_file.readline().strip()
-
+                newline        = sas_file.readline().strip()
+                newline        = sas_file.readline().strip()
+                goal_cache     = []
                 while 'end_goal' not in newline:
-                    temp = newline.split(' ')
+                    temp       = newline.split(' ')
+                    goal_cache.append(int(temp[0]))
                     self.goalState[int(temp[0])] = int(temp[1])
-                    newline = sas_file.readline().strip()
+                    newline    = sas_file.readline().strip()
 
             if 'begin_operator' in newline:
 
                 print bcolors.OKBLUE + '\t-> Reading new operator...' + bcolors.ENDC
                 operatorName = sas_file.readline().strip()
-                effectList = []
+                effectList   = []
 
                 numPrevail   = int(sas_file.readline().strip())
                 for idx in range(numPrevail):
@@ -80,7 +83,7 @@ class readSAS:
 
                 numEffects   = int(sas_file.readline().strip())
                 for idx in range(numEffects):
-                    temp = [int(t) for t in sas_file.readline().strip().split(' ')]
+                    temp     = [int(t) for t in sas_file.readline().strip().split(' ')]
                     if temp[0] != 0:
                         raise Exception(bcolors.FAIL + 'Associated effect conditions not supported!!' + bcolors.ENDC)
                     effectList.append([temp[1], [temp[2], temp[3]]])
@@ -89,30 +92,25 @@ class readSAS:
                 newOperator  = [operatorName, effectList, operatorCost]
                 self.operatorList.append(newOperator)
 
- 
-    def pre_process(self, listOfPredicates, listOfActions, goalState):
-        
-        compliantConditions = copy.deepcopy(listOfPredicates)
-
-        for action in listOfActions:
+        self.compliantConditions = copy.deepcopy(self.variableList)
+        for action in self.operatorList:
             for effect in action[1]:
                 if -1 in effect[1]:
-                    try:
-                        compliantConditions.remove(listOfPredicates[effect[0]])
+                    try: 
+                        self.compliantConditions.remove(self.variableList[effect[0]])
                     except:
                         pass
 
-        goalCompliantConditions = copy.deepcopy(compliantConditions)
-        
-        for predicate in goalState:
-            if predicate == 0:
-                try:
-                    goalCompliantConditions.remove(listOfPredicates[predicate])
-                except:
-                    pass
+        self.goalCompliantConditions = copy.deepcopy(self.compliantConditions)
+        for predicate in goal_cache:
+            try: 
+                self.goalCompliantConditions.remove(self.variableList[predicate])
+            except:
+                pass
 
-        return [compliantConditions, goalCompliantConditions]
-    
+        self.compliantConditions     = copy.deepcopy(self.variableList)
+        self.goalCompliantConditions = copy.deepcopy(self.compliantConditions)
+
 
     def printOutput(self):
 
@@ -140,7 +138,7 @@ class readSAS:
             print
                 
     def returnParsedData(self):
-        return [self.variableList, self.initState, self.goalState, self.operatorList]
+        return [self.variableList, self.initState, self.goalState, self.operatorList, self.compliantConditions, self.goalCompliantConditions]
 
 
     def __return_variable_ID__(self, variableNumber):

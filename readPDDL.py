@@ -2,20 +2,20 @@
 import os, sys, copy, re
 from utils import bcolors
 
-PR2PLAN_COMMAND = "touch obs.dat && ~/pr2plan -d $1 -i $2 -o obs.dat > stdout.txt"
-
-#### SAS parser class ####
+#### PDDL parser class ####
 
 class readPDDL:
 
     def __init__(self, domainFileName, problemFileName, flag = False):
 
-        self.domainFile   = domainFileName
-        self.problemFile  = problemFileName
-        self.variableList = []
-        self.operatorList = []
-        self.initialState = []
-        self.goalState    = []
+        self.domainFile              = domainFileName
+        self.problemFile             = problemFileName
+        self.variableList            = []
+        self.operatorList            = []
+        self.initState               = []
+        self.goalState               = []
+        self.compliantConditions     = []
+        self.goalCompliantConditions = []
         self.read_grounded_domain_file()
 
         if flag:
@@ -24,32 +24,7 @@ class readPDDL:
 
     def read_grounded_domain_file(self):
 
-        print bcolors.HEADER + '\n>> Grounding domain and problem files' + bcolors.ENDC
-        cmd = PR2PLAN_COMMAND.replace('$1', self.domainFile).replace('$2', self.problemFile)
-        os.system(cmd)
-
-        self.domainFile   = 'pr-domain.pddl'
-        self.problemFile  = 'pr-problem.pddl'
-
-        temp = ''
-        with open(self.domainFile, 'r') as tempFile:
-            for line in tempFile:
-                if 'EXPLAIN' not in line:
-                    temp += line
-
-        with open(self.domainFile, 'w') as tempFile:
-            tempFile.write(temp)
-
-        temp = ''
-        with open(self.problemFile, 'r') as tempFile:
-            for line in tempFile:
-                if 'EXPLAIN' not in line:
-                    temp += line
-
-        with open(self.problemFile, 'w') as tempFile:
-            tempFile.write(temp)
-
-        print bcolors.HEADER + '\n>> Reading grounded domain and problem files - ' + bcolors.ENDC
+        print bcolors.HEADER + '\n>> Reading grounded domain and problem files' + bcolors.ENDC
 
         domain_file      = open(self.domainFile, 'r')
         testEmptyString  = re.compile('\s*[A-Z]+\s*', re.IGNORECASE)
@@ -62,20 +37,24 @@ class readPDDL:
         paranFlag        = 0
 
         for line in domain_file:
-
+            
             if readPredicates:
+ 
                 cc = line[line.find("(")+1:line.find(")")].strip()
                 if not testEmptyString.match(cc):
                     readPredicates = False
                 else:
-                    self.variableList.append(cc)
+                    self.variableList.append([cc, [str(i) for i in range(2)]])
 
             if readActions and 'action' in line:
-                newAction.append(line.split(' ')[1].strip());
-                newPre = []
-                newEff = []
-                cost = 0
+
+                actionName = line.split(' ')[1].strip()
+                newPre     = []
+                newEff     = []
+                cost       = 0
+
                 for ll in domain_file:
+
                     flag = 0
                     if ':precondition' in ll:
                         flag = 1
@@ -104,10 +83,36 @@ class readPDDL:
                                         newEff.append(cc)
 
                     if flag == 2:
-                        newAction.append(newPre)
-                        newAction.append(newEff)
-                        newAction.append(cost)
-                        self.operatorList.append(newAction)
+
+                        effect_list = []
+
+                        for pre in newPre:
+                            predicate_id  = [var[0] for var in self.variableList].index(pre)
+                            old_value     = 1
+                            if pre in newEff:
+                                new_value = 1
+                            elif 'not ' + pre in newEff:
+                                new_value = 0
+                            else:
+                                new_value = -1
+                                
+                            effect_list.append([predicate_id, [old_value, new_value]])
+
+                        for eff in newEff:
+                            
+                            old_value = -1
+                            new_value = 1
+
+                            if 'not ' in eff:
+                                new_value = 0
+                                eff       = eff.split(' ')[1].strip()
+                            
+                            if eff not in newPre:
+                                predicate_id  = [var[0] for var in self.variableList].index(eff)
+                                effect_list.append([predicate_id, [old_value, new_value]])
+
+                        new_action_entry = [actionName, effect_list, cost]
+                        self.operatorList.append(new_action_entry)
                         newAction = []
                         break
 
@@ -119,12 +124,12 @@ class readPDDL:
 
         domain_file.close()
 
-        self.initialState = [0]*len(self.variableList)
+        self.initState    = [0]*len(self.variableList)
         self.goalState    = [0]*len(self.variableList)
-        testEmptyString  = re.compile('\s*[A-Z]+\s*', re.IGNORECASE)
-        problem_file = open(self.problemFile, 'r')
-        readInitial  = False
-        readGoal     = False
+        testEmptyString   = re.compile('\s*[A-Z]+\s*', re.IGNORECASE)
+        problem_file      = open(self.problemFile, 'r')
+        readInitial       = False
+        readGoal          = False
 
         for line in problem_file:
 
@@ -136,7 +141,8 @@ class readPDDL:
                     readInitial = False
                 else:
                     cc = cc.replace(" ","_")
-                    self.initialState[self.variableList.index(cc)] = 1
+                    predicate_id  = [var[0] for var in self.variableList].index(cc)
+                    self.initState[predicate_id] = 1
 
             if readGoal:
                 cc = line[line.find("(")+1:line.find(")")].strip()
@@ -145,7 +151,8 @@ class readPDDL:
                 else:
                     if not cc == 'and':
                         cc = cc.replace(" ","_")
-                        self.goalState[self.variableList.index(cc)] = 1
+                        predicate_id  = [var[0] for var in self.variableList].index(cc)
+                        self.goalState[predicate_id] = 1
 
             if 'init' in line:
                 readInitial = True
@@ -155,41 +162,52 @@ class readPDDL:
 
         problem_file.close()
     
+        self.compliantConditions = copy.deepcopy(listOfPredicates)
+        for action in listOfActions:
+            for effect in action[1]:
+                if -1 in effect[1]:
+                    try:
+                        self.compliantConditions.remove(listOfPredicates[effect[0]])
+                    except:
+                        pass
+                
+        self.goalCompliantConditions = copy.deepcopy(self.compliantConditions)
+        for predicate in goalState:
+            if predicate == 0:
+                try:
+                    self.goalCompliantConditions.remove(listOfPredicates[predicate])
+                except:
+                    pass
 
- 
-    def pre_process(self, listOfPredicates, listOfActions, goalState):
-        
-        compliantConditions = copy.deepcopy(listOfPredicates)
-        goalCompliantConditions = copy.deepcopy(compliantConditions)
-        return [compliantConditions, goalCompliantConditions]
-    
 
     def printOutput(self):
 
         print bcolors.HEADER + '\n>> Printing Parsed Output\n' + bcolors.ENDC
         print bcolors.OKGREEN + '-> State Variables...' + bcolors.ENDC
         for var in self.variableList:
-            print var
+            print var[0] + ' : ' + ' , '.join([temp for temp in var[1]])
 
         print bcolors.OKGREEN + '\n-> Initial State...\n' + bcolors.ENDC
-        for idx in range(len(self.initialState)):
-            if self.initialState[idx] == 1:
-                print self.variableList[idx]
+        for varNum in range(len(self.initState)):
+            print self.__return_variable_ID__(varNum) + ' = ' + str(self.initState[varNum]) + ' :: ' + self.__return_variable_name__(varNum,self.initState[varNum])
 
         print bcolors.OKGREEN + '\n-> Goal State...\n' + bcolors.ENDC
-        for idx in range(len(self.goalState)):
-            if self.goalState[idx] == 1:
-                print self.variableList[idx]
+        for varNum in range(len(self.goalState)):
+            print self.__return_variable_ID__(varNum) + ' = ' + str(self.goalState[varNum]) + ' :: ' + self.__return_variable_name__(varNum,self.goalState[varNum])
 
         print bcolors.OKGREEN + '\n-> Operator List...\n' + bcolors.ENDC
-        for action in self.operatorList:
-            print "\nAction Name: " + action[0]
-            print "preconditions: " + str(action[1])
-            print "effects: " + str(action[2])
-            print "cost: " + str(action[3]) + '\n'
-                
+        for operator in self.operatorList:
+            print bcolors.OKBLUE + operator[0] + bcolors.ENDC
+            print 'Cost = ', operator[2]
+            print 'Preconditions & Effects'
+            effectList = operator[1]
+            for effect in effectList:
+                print self.__return_variable_ID__(effect[0]) + ' :: ' + str(effect[1][0]) + ' (' +  self.__return_variable_name__(effect[0],effect[1][0])  + ')' + ' --> ' + str(effect[1][1]) + ' (' + self.__return_variable_name__(effect[0],effect[1][1]) + ')'
+            print
+
+
     def returnParsedData(self):
-        return [self.variableList, self.initState, self.goalState, self.operatorList]
+        return [self.variableList, self.initState, self.goalState, self.operatorList, self.compliantConditions, self.goalCompliantConditions]
 
 
     def __return_variable_ID__(self, variableNumber):
