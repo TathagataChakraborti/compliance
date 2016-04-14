@@ -1,5 +1,5 @@
-Domain=BLOCKS
-Problem=BLOCKS_WORDS
-Preprocessing=0.00188
+Domain=GROUNDED-STRIPS-SLIDING-TILE
+Problem=GROUNDED-HARD1
+Preprocessing=0.00862
 Fluents=82
-Operators=130
+Operators=194

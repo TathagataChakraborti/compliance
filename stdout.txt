@@ -1,92 +1,56 @@
- --- OK.Fluents=82
-Operators=130
-Initial state: Read from obs.dat 0 observations
-(HOLDING W) -> HOLDING W -> HOLDING_W
-(HOLDING O) -> HOLDING O -> HOLDING_O
-(HOLDING E) -> HOLDING E -> HOLDING_E
-(ON W D) -> ON W D -> ON_W_D
-(ON W R) -> ON W R -> ON_W_R
-(ON W O) -> ON W O -> ON_W_O
-(ON W E) -> ON W E -> ON_W_E
-(ON O D) -> ON O D -> ON_O_D
-(ON O R) -> ON O R -> ON_O_R
-(ON O W) -> ON O W -> ON_O_W
-(ON O E) -> ON O E -> ON_O_E
-(ON E D) -> ON E D -> ON_E_D
-(ON E R) -> ON E R -> ON_E_R
-(ON E W) -> ON E W -> ON_E_W
-(ON E O) -> ON E O -> ON_E_O
-(HOLDING D) -> HOLDING D -> HOLDING_D
-(CLEAR A) -> CLEAR A -> CLEAR_A
-(HOLDING R) -> HOLDING R -> HOLDING_R
-(CLEAR P) -> CLEAR P -> CLEAR_P
-(HOLDING A) -> HOLDING A -> HOLDING_A
-(CLEAR C) -> CLEAR C -> CLEAR_C
-(HOLDING P) -> HOLDING P -> HOLDING_P
-(HOLDING C) -> HOLDING C -> HOLDING_C
-(ONTABLE D) -> ONTABLE D -> ONTABLE_D
-(ONTABLE R) -> ONTABLE R -> ONTABLE_R
-(ONTABLE A) -> ONTABLE A -> ONTABLE_A
-(ON D R) -> ON D R -> ON_D_R
-(ON D W) -> ON D W -> ON_D_W
-(ON D O) -> ON D O -> ON_D_O
-(ON D E) -> ON D E -> ON_D_E
-(ON D P) -> ON D P -> ON_D_P
-(ON D C) -> ON D C -> ON_D_C
-(ON R D) -> ON R D -> ON_R_D
-(ON R A) -> ON R A -> ON_R_A
-(ON R W) -> ON R W -> ON_R_W
-(ON R O) -> ON R O -> ON_R_O
-(ON R E) -> ON R E -> ON_R_E
-(ON R C) -> ON R C -> ON_R_C
-(ON A D) -> ON A D -> ON_A_D
-(ON A R) -> ON A R -> ON_A_R
-(ON A W) -> ON A W -> ON_A_W
-(ON A O) -> ON A O -> ON_A_O
-(ON A E) -> ON A E -> ON_A_E
-(ON A P) -> ON A P -> ON_A_P
-(ON W A) -> ON W A -> ON_W_A
-(ON W P) -> ON W P -> ON_W_P
-(ON W C) -> ON W C -> ON_W_C
-(ON O A) -> ON O A -> ON_O_A
-(ON O P) -> ON O P -> ON_O_P
-(ON O C) -> ON O C -> ON_O_C
-(ON E A) -> ON E A -> ON_E_A
-(ON E P) -> ON E P -> ON_E_P
-(ON E C) -> ON E C -> ON_E_C
-(ON P D) -> ON P D -> ON_P_D
-(ON P R) -> ON P R -> ON_P_R
-(ON P A) -> ON P A -> ON_P_A
-(ON P W) -> ON P W -> ON_P_W
-(ON P O) -> ON P O -> ON_P_O
-(ON P E) -> ON P E -> ON_P_E
-(ON P C) -> ON P C -> ON_P_C
-(ON C D) -> ON C D -> ON_C_D
-(ON C R) -> ON C R -> ON_C_R
-(ON C A) -> ON C A -> ON_C_A
-(ON C W) -> ON C W -> ON_C_W
-(ON C O) -> ON C O -> ON_C_O
-(ON C E) -> ON C E -> ON_C_E
-(ON C P) -> ON C P -> ON_C_P
-(HANDEMPTY) -> HANDEMPTY -> HANDEMPTY
-(CLEAR R) -> CLEAR R -> CLEAR_R
-(CLEAR D) -> CLEAR D -> CLEAR_D
-(CLEAR E) -> CLEAR E -> CLEAR_E
-(CLEAR O) -> CLEAR O -> CLEAR_O
-(CLEAR W) -> CLEAR W -> CLEAR_W
-(ONTABLE C) -> ONTABLE C -> ONTABLE_C
-(ONTABLE P) -> ONTABLE P -> ONTABLE_P
-(ON A C) -> ON A C -> ON_A_C
-(ON R P) -> ON R P -> ON_R_P
-(ON D A) -> ON D A -> ON_D_A
-(ONTABLE E) -> ONTABLE E -> ONTABLE_E
-(ONTABLE O) -> ONTABLE O -> ONTABLE_O
-(ONTABLE W) -> ONTABLE W -> ONTABLE_W
-Predicate: 
-	EXPLAINED_FULL_OBS_SEQUENCE
-created
-Predicate: 
-	NOT_EXPLAINED_FULL_OBS_SEQUENCE
-created
-Writing resulting STRIPS domain into pr-domain.pddl
-Writing resulting STRIPS problem into pr-problem.pddl
+Parsing...
+Parsing: [0.030s CPU, 0.027s wall-clock]
+Normalizing task... [0.000s CPU, 0.003s wall-clock]
+Instantiating...
+Generating Datalog program... [0.000s CPU, 0.002s wall-clock]
+Normalizing Datalog program...
+Normalizing Datalog program: [0.010s CPU, 0.006s wall-clock]
+Preparing model... [0.000s CPU, 0.005s wall-clock]
+Generated 577 rules.
+Computing model... [0.010s CPU, 0.003s wall-clock]
+274 relevant atoms
+0 auxiliary atoms
+274 final queue length
+586 total queue pushes
+Completing instantiation... [0.000s CPU, 0.006s wall-clock]
+Instantiating: [0.020s CPU, 0.022s wall-clock]
+Computing fact groups...
+Finding invariants...
+81 initial candidates
+Finding invariants: [32.770s CPU, 32.764s wall-clock]
+Checking invariant weight... [0.000s CPU, 0.000s wall-clock]
+Instantiating groups... [0.000s CPU, 0.000s wall-clock]
+Collecting mutex groups... [0.000s CPU, 0.000s wall-clock]
+Choosing groups...
+0 uncovered facts
+Choosing groups: [0.000s CPU, 0.000s wall-clock]
+Building translation key... [0.000s CPU, 0.000s wall-clock]
+Computing fact groups: [32.770s CPU, 32.766s wall-clock]
+Building STRIPS to SAS dictionary... [0.000s CPU, 0.000s wall-clock]
+Building dictionary for full mutex groups... [0.000s CPU, 0.000s wall-clock]
+Building mutex information...
+Building mutex information: [0.000s CPU, 0.000s wall-clock]
+Translating task...
+Processing axioms...
+Simplifying axioms... [0.000s CPU, 0.000s wall-clock]
+Processing axioms: [0.000s CPU, 0.000s wall-clock]
+Translating task: [0.010s CPU, 0.007s wall-clock]
+0 effect conditions simplified
+0 implied preconditions added
+Detecting unreachable propositions...
+0 operators removed
+0 axioms removed
+9 propositions removed
+Detecting unreachable propositions: [0.000s CPU, 0.004s wall-clock]
+Translator variables: 9
+Translator derived variables: 0
+Translator facts: 81
+Translator goal facts: 8
+Translator mutex groups: 18
+Translator total mutex groups size: 162
+Translator operators: 192
+Translator axioms: 0
+Translator task size: 1220
+Translator peak memory: 371252 KB
+Writing output... [0.000s CPU, 0.001s wall-clock]
+Done! [32.830s CPU, 32.833s wall-clock]

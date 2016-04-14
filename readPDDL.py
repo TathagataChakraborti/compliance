@@ -162,15 +162,20 @@ class readPDDL:
 
         problem_file.close()
     
+        cache = set()
         self.compliantConditions = copy.deepcopy(self.variableList)
         for action in self.operatorList:
             for effect in action[1]:
                 if -1 in effect[1]:
                     try:
+                        cache.add(effect[0])
                         self.compliantConditions.remove(self.variableList[effect[0]])
                     except:
                         pass
         
+        print 666, cache
+
+        self.goalCompliantConditions = copy.deepcopy(self.compliantConditions)
         for predicate in self.goalState:
             if predicate == 0:
                 try:
@@ -207,10 +212,13 @@ class readPDDL:
                 print self.__return_variable_ID__(effect[0]) + ' :: ' + str(effect[1][0]) + ' (' +  self.__return_variable_name__(effect[0],effect[1][0])  + ')' + ' --> ' + str(effect[1][1]) + ' (' + self.__return_variable_name__(effect[0],effect[1][1]) + ')'
             print
 
+        print bcolors.OKGREEN + '-> Compliant Variables...' + bcolors.ENDC
+        for var in self.compliantConditions:
+            print var[0] + ' : ' + ' , '.join([temp for temp in var[1]])
+
         print bcolors.OKGREEN + '-> Goal Compliant Variables...' + bcolors.ENDC
         for var in self.goalCompliantConditions:
             print var[0] + ' : ' + ' , '.join([temp for temp in var[1]])
-
 
 
     def returnParsedData(self):

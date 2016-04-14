@@ -101,12 +101,13 @@ class readSAS:
                     except:
                         pass
 
-        self.goalCompliantConditions = copy.deepcopy(self.compliantConditions)
+        self.goalCompliantConditions = []
         for predicate in goal_cache:
-            try: 
-                self.goalCompliantConditions.remove(self.variableList[predicate])
-            except:
-                pass
+            if self.variableList[predicate] in self.compliantConditions:
+                try: 
+                    self.goalCompliantConditions.append(self.variableList[predicate])
+                except:
+                    pass
 
         #self.compliantConditions     = copy.deepcopy(self.variableList)
         #self.goalCompliantConditions = copy.deepcopy(self.compliantConditions)
@@ -137,6 +138,10 @@ class readSAS:
                 print self.__return_variable_ID__(effect[0]) + ' :: ' + str(effect[1][0]) + ' (' +  self.__return_variable_name__(effect[0],effect[1][0])  + ')' + ' --> ' + str(effect[1][1]) + ' (' + self.__return_variable_name__(effect[0],effect[1][1]) + ')'
             print
                 
+        print bcolors.OKGREEN + '-> Compliant Variables...' + bcolors.ENDC
+        for var in self.compliantConditions:
+            print var[0] + ' : ' + ' , '.join([temp for temp in var[1]])
+
         print bcolors.OKGREEN + '-> Goal Compliant Variables...' + bcolors.ENDC
         for var in self.goalCompliantConditions:
             print var[0] + ' : ' + ' , '.join([temp for temp in var[1]])
@@ -155,7 +160,6 @@ class readSAS:
             return 'x'
         else:
             return self.variableList[variableNumber][1][variableValue]
-
 
 
 ### main function ###

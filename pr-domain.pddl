@@ -1,2304 +1,3160 @@
 (define
-	(domain grounded-BLOCKS)
+	(domain grounded-GROUNDED-STRIPS-SLIDING-TILE)
 	(:requirements :strips :action-costs)
 	(:predicates
-		( HOLDING_W )
-		( HOLDING_O )
-		( HOLDING_E )
-		( ON_W_D )
-		( ON_W_R )
-		( ON_W_O )
-		( ON_W_E )
-		( ON_O_D )
-		( ON_O_R )
-		( ON_O_W )
-		( ON_O_E )
-		( ON_E_D )
-		( ON_E_R )
-		( ON_E_W )
-		( ON_E_O )
-		( HOLDING_D )
-		( CLEAR_A )
-		( HOLDING_R )
-		( CLEAR_P )
-		( HOLDING_A )
-		( CLEAR_C )
-		( HOLDING_P )
-		( HOLDING_C )
-		( ONTABLE_D )
-		( ONTABLE_R )
-		( ONTABLE_A )
-		( ON_D_R )
-		( ON_D_W )
-		( ON_D_O )
-		( ON_D_E )
-		( ON_D_P )
-		( ON_D_C )
-		( ON_R_D )
-		( ON_R_A )
-		( ON_R_W )
-		( ON_R_O )
-		( ON_R_E )
-		( ON_R_C )
-		( ON_A_D )
-		( ON_A_R )
-		( ON_A_W )
-		( ON_A_O )
-		( ON_A_E )
-		( ON_A_P )
-		( ON_W_A )
-		( ON_W_P )
-		( ON_W_C )
-		( ON_O_A )
-		( ON_O_P )
-		( ON_O_C )
-		( ON_E_A )
-		( ON_E_P )
-		( ON_E_C )
-		( ON_P_D )
-		( ON_P_R )
-		( ON_P_A )
-		( ON_P_W )
-		( ON_P_O )
-		( ON_P_E )
-		( ON_P_C )
-		( ON_C_D )
-		( ON_C_R )
-		( ON_C_A )
-		( ON_C_W )
-		( ON_C_O )
-		( ON_C_E )
-		( ON_C_P )
-		( HANDEMPTY )
-		( CLEAR_R )
-		( CLEAR_D )
-		( CLEAR_E )
-		( CLEAR_O )
-		( CLEAR_W )
-		( ONTABLE_C )
-		( ONTABLE_P )
-		( ON_A_C )
-		( ON_R_P )
-		( ON_D_A )
-		( ONTABLE_E )
-		( ONTABLE_O )
-		( ONTABLE_W )
+		( BLANK_P2_P1 )
+		( AT_T1_P1_P1 )
+		( BLANK_P1_P2 )
+		( AT_T3_P1_P1 )
+		( BLANK_P3_P1 )
+		( AT_T2_P2_P1 )
+		( AT_T3_P2_P1 )
+		( BLANK_P2_P2 )
+		( AT_T4_P2_P1 )
+		( BLANK_P1_P3 )
+		( AT_T6_P1_P2 )
+		( BLANK_P2_P3 )
+		( AT_T7_P2_P2 )
+		( AT_T1_P1_P2 )
+		( AT_T1_P2_P2 )
+		( AT_T4_P1_P2 )
+		( AT_T1_P3_P1 )
+		( AT_T3_P3_P1 )
+		( AT_T4_P3_P1 )
+		( BLANK_P3_P2 )
+		( AT_T5_P3_P1 )
+		( BLANK_P3_P3 )
+		( AT_T8_P3_P2 )
+		( AT_T1_P1_P3 )
+		( AT_T1_P2_P3 )
+		( AT_T3_P1_P3 )
+		( AT_T4_P1_P3 )
+		( AT_T4_P2_P3 )
+		( AT_T5_P3_P3 )
+		( AT_T2_P2_P2 )
+		( AT_T2_P3_P2 )
+		( AT_T3_P2_P2 )
+		( AT_T2_P1_P1 )
+		( AT_T4_P1_P1 )
+		( AT_T7_P1_P2 )
+		( AT_T7_P1_P3 )
+		( AT_T5_P2_P2 )
+		( AT_T8_P2_P3 )
+		( AT_T6_P2_P2 )
+		( AT_T6_P2_P3 )
+		( AT_T6_P1_P1 )
+		( AT_T7_P2_P1 )
+		( AT_T1_P3_P2 )
+		( AT_T3_P3_P2 )
+		( AT_T4_P3_P2 )
+		( AT_T2_P1_P2 )
+		( AT_T5_P2_P1 )
+		( AT_T5_P2_P3 )
+		( AT_T8_P2_P2 )
+		( AT_T1_P3_P3 )
+		( AT_T4_P3_P3 )
+		( AT_T6_P3_P2 )
+		( AT_T6_P3_P3 )
+		( AT_T7_P3_P1 )
+		( AT_T7_P3_P2 )
+		( AT_T7_P3_P3 )
+		( AT_T3_P2_P3 )
+		( AT_T6_P2_P1 )
+		( AT_T7_P1_P1 )
+		( AT_T8_P2_P1 )
+		( AT_T8_P3_P1 )
+		( AT_T2_P1_P3 )
+		( AT_T2_P2_P3 )
+		( AT_T2_P3_P3 )
+		( AT_T5_P1_P2 )
+		( AT_T8_P1_P3 )
+		( AT_T6_P3_P1 )
+		( AT_T3_P3_P3 )
+		( AT_T5_P1_P1 )
+		( AT_T5_P1_P3 )
+		( AT_T8_P1_P1 )
+		( AT_T8_P1_P2 )
+		( BLANK_P1_P1 )
+		( AT_T7_P2_P3 )
+		( AT_T4_P2_P2 )
+		( AT_T6_P1_P3 )
+		( AT_T3_P1_P2 )
+		( AT_T8_P3_P3 )
+		( AT_T5_P3_P2 )
+		( AT_T2_P3_P1 )
+		( AT_T1_P2_P1 )
 	) 
 	(:functions (total-cost))
-	(:action PICK-UP_A
+	(:action MOVE-UP_T8_P1_P1_P2
 		:parameters ()
 		:precondition
 		(and
-			( HANDEMPTY )
-			( ONTABLE_A )
-			( CLEAR_A )
+			( BLANK_P1_P2 )
+			( AT_T8_P1_P1 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( HOLDING_A )
-			(not ( ONTABLE_A ))
-			(not ( CLEAR_A ))
-			(not ( HANDEMPTY ))
+			( BLANK_P1_P1 )
+			( AT_T8_P1_P2 )
+			(not ( BLANK_P1_P2 ))
+			(not ( AT_T8_P1_P1 ))
 		)
 	)
-	(:action PICK-UP_R
+	(:action MOVE-UP_T5_P1_P1_P2
 		:parameters ()
 		:precondition
 		(and
-			( HANDEMPTY )
-			( ONTABLE_R )
-			( CLEAR_R )
+			( BLANK_P1_P2 )
+			( AT_T5_P1_P1 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( HOLDING_R )
-			(not ( ONTABLE_R ))
-			(not ( CLEAR_R ))
-			(not ( HANDEMPTY ))
+			( BLANK_P1_P1 )
+			( AT_T5_P1_P2 )
+			(not ( BLANK_P1_P2 ))
+			(not ( AT_T5_P1_P1 ))
 		)
 	)
-	(:action PICK-UP_D
+	(:action MOVE-UP_T8_P1_P2_P3
 		:parameters ()
 		:precondition
 		(and
-			( HANDEMPTY )
-			( ONTABLE_D )
-			( CLEAR_D )
+			( BLANK_P1_P3 )
+			( AT_T8_P1_P2 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( HOLDING_D )
-			(not ( ONTABLE_D ))
-			(not ( CLEAR_D ))
-			(not ( HANDEMPTY ))
+			( BLANK_P1_P2 )
+			( AT_T8_P1_P3 )
+			(not ( BLANK_P1_P3 ))
+			(not ( AT_T8_P1_P2 ))
 		)
 	)
-	(:action UNSTACK_C_P
+	(:action MOVE-DOWN_T3_P3_P3_P2
 		:parameters ()
 		:precondition
 		(and
-			( HANDEMPTY )
-			( CLEAR_C )
-			( ON_C_P )
+			( BLANK_P3_P2 )
+			( AT_T3_P3_P3 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( HOLDING_C )
-			( CLEAR_P )
-			(not ( CLEAR_C ))
-			(not ( HANDEMPTY ))
-			(not ( ON_C_P ))
+			( BLANK_P3_P3 )
+			( AT_T3_P3_P2 )
+			(not ( BLANK_P3_P2 ))
+			(not ( AT_T3_P3_P3 ))
 		)
 	)
-	(:action UNSTACK_C_E
+	(:action MOVE-UP_T5_P1_P2_P3
 		:parameters ()
 		:precondition
 		(and
-			( HANDEMPTY )
-			( CLEAR_C )
-			( ON_C_E )
+			( BLANK_P1_P3 )
+			( AT_T5_P1_P2 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( HOLDING_C )
-			( CLEAR_E )
-			(not ( CLEAR_C ))
-			(not ( HANDEMPTY ))
-			(not ( ON_C_E ))
+			( BLANK_P1_P2 )
+			( AT_T5_P1_P3 )
+			(not ( BLANK_P1_P3 ))
+			(not ( AT_T5_P1_P2 ))
 		)
 	)
-	(:action UNSTACK_C_O
+	(:action MOVE-DOWN_T8_P1_P3_P2
 		:parameters ()
 		:precondition
 		(and
-			( HANDEMPTY )
-			( CLEAR_C )
-			( ON_C_O )
+			( BLANK_P1_P2 )
+			( AT_T8_P1_P3 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( HOLDING_C )
-			( CLEAR_O )
-			(not ( CLEAR_C ))
-			(not ( HANDEMPTY ))
-			(not ( ON_C_O ))
+			( BLANK_P1_P3 )
+			( AT_T8_P1_P2 )
+			(not ( BLANK_P1_P2 ))
+			(not ( AT_T8_P1_P3 ))
 		)
 	)
-	(:action UNSTACK_C_W
+	(:action MOVE-DOWN_T5_P1_P3_P2
 		:parameters ()
 		:precondition
 		(and
-			( HANDEMPTY )
-			( CLEAR_C )
-			( ON_C_W )
+			( BLANK_P1_P2 )
+			( AT_T5_P1_P3 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( HOLDING_C )
-			( CLEAR_W )
-			(not ( CLEAR_C ))
-			(not ( HANDEMPTY ))
-			(not ( ON_C_W ))
+			( BLANK_P1_P3 )
+			( AT_T5_P1_P2 )
+			(not ( BLANK_P1_P2 ))
+			(not ( AT_T5_P1_P3 ))
 		)
 	)
-	(:action UNSTACK_C_A
+	(:action MOVE-DOWN_T2_P3_P3_P2
 		:parameters ()
 		:precondition
 		(and
-			( HANDEMPTY )
-			( CLEAR_C )
-			( ON_C_A )
+			( BLANK_P3_P2 )
+			( AT_T2_P3_P3 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( HOLDING_C )
-			( CLEAR_A )
-			(not ( CLEAR_C ))
-			(not ( HANDEMPTY ))
-			(not ( ON_C_A ))
+			( BLANK_P3_P3 )
+			( AT_T2_P3_P2 )
+			(not ( BLANK_P3_P2 ))
+			(not ( AT_T2_P3_P3 ))
 		)
 	)
-	(:action UNSTACK_C_R
+	(:action MOVE-DOWN_T2_P2_P3_P2
 		:parameters ()
 		:precondition
 		(and
-			( HANDEMPTY )
-			( CLEAR_C )
-			( ON_C_R )
+			( BLANK_P2_P2 )
+			( AT_T2_P2_P3 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( HOLDING_C )
-			( CLEAR_R )
-			(not ( CLEAR_C ))
-			(not ( HANDEMPTY ))
-			(not ( ON_C_R ))
+			( BLANK_P2_P3 )
+			( AT_T2_P2_P2 )
+			(not ( BLANK_P2_P2 ))
+			(not ( AT_T2_P2_P3 ))
 		)
 	)
-	(:action UNSTACK_C_D
+	(:action MOVE-DOWN_T2_P1_P3_P2
 		:parameters ()
 		:precondition
 		(and
-			( HANDEMPTY )
-			( CLEAR_C )
-			( ON_C_D )
+			( BLANK_P1_P2 )
+			( AT_T2_P1_P3 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( HOLDING_C )
-			( CLEAR_D )
-			(not ( CLEAR_C ))
-			(not ( HANDEMPTY ))
-			(not ( ON_C_D ))
+			( BLANK_P1_P3 )
+			( AT_T2_P1_P2 )
+			(not ( BLANK_P1_P2 ))
+			(not ( AT_T2_P1_P3 ))
 		)
 	)
-	(:action UNSTACK_P_C
+	(:action MOVE-DOWN_T8_P1_P2_P1
 		:parameters ()
 		:precondition
 		(and
-			( HANDEMPTY )
-			( CLEAR_P )
-			( ON_P_C )
+			( BLANK_P1_P1 )
+			( AT_T8_P1_P2 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( HOLDING_P )
-			( CLEAR_C )
-			(not ( CLEAR_P ))
-			(not ( HANDEMPTY ))
-			(not ( ON_P_C ))
+			( BLANK_P1_P2 )
+			( AT_T8_P1_P1 )
+			(not ( BLANK_P1_P1 ))
+			(not ( AT_T8_P1_P2 ))
 		)
 	)
-	(:action UNSTACK_P_E
+	(:action MOVE-DOWN_T5_P1_P2_P1
 		:parameters ()
 		:precondition
 		(and
-			( HANDEMPTY )
-			( CLEAR_P )
-			( ON_P_E )
+			( BLANK_P1_P1 )
+			( AT_T5_P1_P2 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( HOLDING_P )
-			( CLEAR_E )
-			(not ( CLEAR_P ))
-			(not ( HANDEMPTY ))
-			(not ( ON_P_E ))
+			( BLANK_P1_P2 )
+			( AT_T5_P1_P1 )
+			(not ( BLANK_P1_P1 ))
+			(not ( AT_T5_P1_P2 ))
 		)
 	)
-	(:action UNSTACK_P_O
+	(:action MOVE-LEFT_T8_P1_P3_P2
 		:parameters ()
 		:precondition
 		(and
-			( HANDEMPTY )
-			( CLEAR_P )
-			( ON_P_O )
+			( BLANK_P2_P3 )
+			( AT_T8_P1_P3 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( HOLDING_P )
-			( CLEAR_O )
-			(not ( CLEAR_P ))
-			(not ( HANDEMPTY ))
-			(not ( ON_P_O ))
+			( BLANK_P1_P3 )
+			( AT_T8_P2_P3 )
+			(not ( BLANK_P2_P3 ))
+			(not ( AT_T8_P1_P3 ))
 		)
 	)
-	(:action UNSTACK_P_W
+	(:action MOVE-LEFT_T8_P1_P2_P2
 		:parameters ()
 		:precondition
 		(and
-			( HANDEMPTY )
-			( CLEAR_P )
-			( ON_P_W )
+			( BLANK_P2_P2 )
+			( AT_T8_P1_P2 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( HOLDING_P )
-			( CLEAR_W )
-			(not ( CLEAR_P ))
-			(not ( HANDEMPTY ))
-			(not ( ON_P_W ))
+			( BLANK_P1_P2 )
+			( AT_T8_P2_P2 )
+			(not ( BLANK_P2_P2 ))
+			(not ( AT_T8_P1_P2 ))
 		)
 	)
-	(:action UNSTACK_P_A
+	(:action MOVE-LEFT_T8_P1_P1_P2
 		:parameters ()
 		:precondition
 		(and
-			( HANDEMPTY )
-			( CLEAR_P )
-			( ON_P_A )
+			( BLANK_P2_P1 )
+			( AT_T8_P1_P1 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( HOLDING_P )
-			( CLEAR_A )
-			(not ( CLEAR_P ))
-			(not ( HANDEMPTY ))
-			(not ( ON_P_A ))
+			( BLANK_P1_P1 )
+			( AT_T8_P2_P1 )
+			(not ( BLANK_P2_P1 ))
+			(not ( AT_T8_P1_P1 ))
 		)
 	)
-	(:action UNSTACK_P_R
+	(:action MOVE-LEFT_T7_P1_P1_P2
 		:parameters ()
 		:precondition
 		(and
-			( HANDEMPTY )
-			( CLEAR_P )
-			( ON_P_R )
+			( BLANK_P2_P1 )
+			( AT_T7_P1_P1 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( HOLDING_P )
-			( CLEAR_R )
-			(not ( CLEAR_P ))
-			(not ( HANDEMPTY ))
-			(not ( ON_P_R ))
+			( BLANK_P1_P1 )
+			( AT_T7_P2_P1 )
+			(not ( BLANK_P2_P1 ))
+			(not ( AT_T7_P1_P1 ))
 		)
 	)
-	(:action UNSTACK_P_D
+	(:action MOVE-LEFT_T5_P1_P3_P2
 		:parameters ()
 		:precondition
 		(and
-			( HANDEMPTY )
-			( CLEAR_P )
-			( ON_P_D )
+			( BLANK_P2_P3 )
+			( AT_T5_P1_P3 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( HOLDING_P )
-			( CLEAR_D )
-			(not ( CLEAR_P ))
-			(not ( HANDEMPTY ))
-			(not ( ON_P_D ))
+			( BLANK_P1_P3 )
+			( AT_T5_P2_P3 )
+			(not ( BLANK_P2_P3 ))
+			(not ( AT_T5_P1_P3 ))
 		)
 	)
-	(:action UNSTACK_E_C
+	(:action MOVE-LEFT_T5_P1_P2_P2
 		:parameters ()
 		:precondition
 		(and
-			( HANDEMPTY )
-			( CLEAR_E )
-			( ON_E_C )
+			( BLANK_P2_P2 )
+			( AT_T5_P1_P2 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( HOLDING_E )
-			( CLEAR_C )
-			(not ( CLEAR_E ))
-			(not ( HANDEMPTY ))
-			(not ( ON_E_C ))
+			( BLANK_P1_P2 )
+			( AT_T5_P2_P2 )
+			(not ( BLANK_P2_P2 ))
+			(not ( AT_T5_P1_P2 ))
 		)
 	)
-	(:action UNSTACK_E_P
+	(:action MOVE-LEFT_T5_P1_P1_P2
 		:parameters ()
 		:precondition
 		(and
-			( HANDEMPTY )
-			( CLEAR_E )
-			( ON_E_P )
+			( BLANK_P2_P1 )
+			( AT_T5_P1_P1 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( HOLDING_E )
-			( CLEAR_P )
-			(not ( CLEAR_E ))
-			(not ( HANDEMPTY ))
-			(not ( ON_E_P ))
+			( BLANK_P1_P1 )
+			( AT_T5_P2_P1 )
+			(not ( BLANK_P2_P1 ))
+			(not ( AT_T5_P1_P1 ))
 		)
 	)
-	(:action UNSTACK_E_A
+	(:action MOVE-LEFT_T2_P1_P3_P2
 		:parameters ()
 		:precondition
 		(and
-			( HANDEMPTY )
-			( CLEAR_E )
-			( ON_E_A )
+			( BLANK_P2_P3 )
+			( AT_T2_P1_P3 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( HOLDING_E )
-			( CLEAR_A )
-			(not ( CLEAR_E ))
-			(not ( HANDEMPTY ))
-			(not ( ON_E_A ))
+			( BLANK_P1_P3 )
+			( AT_T2_P2_P3 )
+			(not ( BLANK_P2_P3 ))
+			(not ( AT_T2_P1_P3 ))
 		)
 	)
-	(:action UNSTACK_O_C
+	(:action MOVE-LEFT_T8_P2_P1_P3
 		:parameters ()
 		:precondition
 		(and
-			( HANDEMPTY )
-			( CLEAR_O )
-			( ON_O_C )
+			( BLANK_P3_P1 )
+			( AT_T8_P2_P1 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( HOLDING_O )
-			( CLEAR_C )
-			(not ( CLEAR_O ))
-			(not ( HANDEMPTY ))
-			(not ( ON_O_C ))
+			( BLANK_P2_P1 )
+			( AT_T8_P3_P1 )
+			(not ( BLANK_P3_P1 ))
+			(not ( AT_T8_P2_P1 ))
 		)
 	)
-	(:action UNSTACK_O_P
+	(:action MOVE-LEFT_T6_P2_P1_P3
 		:parameters ()
 		:precondition
 		(and
-			( HANDEMPTY )
-			( CLEAR_O )
-			( ON_O_P )
+			( BLANK_P3_P1 )
+			( AT_T6_P2_P1 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( HOLDING_O )
-			( CLEAR_P )
-			(not ( CLEAR_O ))
-			(not ( HANDEMPTY ))
-			(not ( ON_O_P ))
+			( BLANK_P2_P1 )
+			( AT_T6_P3_P1 )
+			(not ( BLANK_P3_P1 ))
+			(not ( AT_T6_P2_P1 ))
 		)
 	)
-	(:action UNSTACK_O_A
+	(:action MOVE-LEFT_T3_P2_P3_P3
 		:parameters ()
 		:precondition
 		(and
-			( HANDEMPTY )
-			( CLEAR_O )
-			( ON_O_A )
+			( BLANK_P3_P3 )
+			( AT_T3_P2_P3 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( HOLDING_O )
-			( CLEAR_A )
-			(not ( CLEAR_O ))
-			(not ( HANDEMPTY ))
-			(not ( ON_O_A ))
+			( BLANK_P2_P3 )
+			( AT_T3_P3_P3 )
+			(not ( BLANK_P3_P3 ))
+			(not ( AT_T3_P2_P3 ))
 		)
 	)
-	(:action UNSTACK_W_C
+	(:action MOVE-LEFT_T2_P2_P3_P3
 		:parameters ()
 		:precondition
 		(and
-			( HANDEMPTY )
-			( CLEAR_W )
-			( ON_W_C )
+			( BLANK_P3_P3 )
+			( AT_T2_P2_P3 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( HOLDING_W )
-			( CLEAR_C )
-			(not ( CLEAR_W ))
-			(not ( HANDEMPTY ))
-			(not ( ON_W_C ))
+			( BLANK_P2_P3 )
+			( AT_T2_P3_P3 )
+			(not ( BLANK_P3_P3 ))
+			(not ( AT_T2_P2_P3 ))
 		)
 	)
-	(:action UNSTACK_W_P
+	(:action MOVE-RIGHT_T8_P3_P1_P2
 		:parameters ()
 		:precondition
 		(and
-			( HANDEMPTY )
-			( CLEAR_W )
-			( ON_W_P )
+			( BLANK_P2_P1 )
+			( AT_T8_P3_P1 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( HOLDING_W )
-			( CLEAR_P )
-			(not ( CLEAR_W ))
-			(not ( HANDEMPTY ))
-			(not ( ON_W_P ))
+			( BLANK_P3_P1 )
+			( AT_T8_P2_P1 )
+			(not ( BLANK_P2_P1 ))
+			(not ( AT_T8_P3_P1 ))
 		)
 	)
-	(:action UNSTACK_W_A
+	(:action MOVE-RIGHT_T7_P3_P3_P2
 		:parameters ()
 		:precondition
 		(and
-			( HANDEMPTY )
-			( CLEAR_W )
-			( ON_W_A )
+			( BLANK_P2_P3 )
+			( AT_T7_P3_P3 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( HOLDING_W )
-			( CLEAR_A )
-			(not ( CLEAR_W ))
-			(not ( HANDEMPTY ))
-			(not ( ON_W_A ))
+			( BLANK_P3_P3 )
+			( AT_T7_P2_P3 )
+			(not ( BLANK_P2_P3 ))
+			(not ( AT_T7_P3_P3 ))
 		)
 	)
-	(:action UNSTACK_A_P
+	(:action MOVE-RIGHT_T7_P3_P2_P2
 		:parameters ()
 		:precondition
 		(and
-			( HANDEMPTY )
-			( CLEAR_A )
-			( ON_A_P )
+			( BLANK_P2_P2 )
+			( AT_T7_P3_P2 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( HOLDING_A )
-			( CLEAR_P )
-			(not ( CLEAR_A ))
-			(not ( HANDEMPTY ))
-			(not ( ON_A_P ))
+			( BLANK_P3_P2 )
+			( AT_T7_P2_P2 )
+			(not ( BLANK_P2_P2 ))
+			(not ( AT_T7_P3_P2 ))
 		)
 	)
-	(:action UNSTACK_A_E
+	(:action MOVE-RIGHT_T7_P3_P1_P2
 		:parameters ()
 		:precondition
 		(and
-			( HANDEMPTY )
-			( CLEAR_A )
-			( ON_A_E )
+			( BLANK_P2_P1 )
+			( AT_T7_P3_P1 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( HOLDING_A )
-			( CLEAR_E )
-			(not ( CLEAR_A ))
-			(not ( HANDEMPTY ))
-			(not ( ON_A_E ))
+			( BLANK_P3_P1 )
+			( AT_T7_P2_P1 )
+			(not ( BLANK_P2_P1 ))
+			(not ( AT_T7_P3_P1 ))
 		)
 	)
-	(:action UNSTACK_A_O
+	(:action MOVE-RIGHT_T6_P3_P3_P2
 		:parameters ()
 		:precondition
 		(and
-			( HANDEMPTY )
-			( CLEAR_A )
-			( ON_A_O )
+			( BLANK_P2_P3 )
+			( AT_T6_P3_P3 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( HOLDING_A )
-			( CLEAR_O )
-			(not ( CLEAR_A ))
-			(not ( HANDEMPTY ))
-			(not ( ON_A_O ))
+			( BLANK_P3_P3 )
+			( AT_T6_P2_P3 )
+			(not ( BLANK_P2_P3 ))
+			(not ( AT_T6_P3_P3 ))
 		)
 	)
-	(:action UNSTACK_A_W
+	(:action MOVE-RIGHT_T6_P3_P2_P2
 		:parameters ()
 		:precondition
 		(and
-			( HANDEMPTY )
-			( CLEAR_A )
-			( ON_A_W )
+			( BLANK_P2_P2 )
+			( AT_T6_P3_P2 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( HOLDING_A )
-			( CLEAR_W )
-			(not ( CLEAR_A ))
-			(not ( HANDEMPTY ))
-			(not ( ON_A_W ))
+			( BLANK_P3_P2 )
+			( AT_T6_P2_P2 )
+			(not ( BLANK_P2_P2 ))
+			(not ( AT_T6_P3_P2 ))
 		)
 	)
-	(:action UNSTACK_A_R
+	(:action MOVE-RIGHT_T6_P3_P1_P2
 		:parameters ()
 		:precondition
 		(and
-			( HANDEMPTY )
-			( CLEAR_A )
-			( ON_A_R )
+			( BLANK_P2_P1 )
+			( AT_T6_P3_P1 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( HOLDING_A )
-			( CLEAR_R )
-			(not ( CLEAR_A ))
-			(not ( HANDEMPTY ))
-			(not ( ON_A_R ))
+			( BLANK_P3_P1 )
+			( AT_T6_P2_P1 )
+			(not ( BLANK_P2_P1 ))
+			(not ( AT_T6_P3_P1 ))
 		)
 	)
-	(:action UNSTACK_A_D
+	(:action MOVE-RIGHT_T4_P3_P3_P2
 		:parameters ()
 		:precondition
 		(and
-			( HANDEMPTY )
-			( CLEAR_A )
-			( ON_A_D )
+			( BLANK_P2_P3 )
+			( AT_T4_P3_P3 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( HOLDING_A )
-			( CLEAR_D )
-			(not ( CLEAR_A ))
-			(not ( HANDEMPTY ))
-			(not ( ON_A_D ))
+			( BLANK_P3_P3 )
+			( AT_T4_P2_P3 )
+			(not ( BLANK_P2_P3 ))
+			(not ( AT_T4_P3_P3 ))
 		)
 	)
-	(:action UNSTACK_R_C
+	(:action MOVE-RIGHT_T3_P3_P3_P2
 		:parameters ()
 		:precondition
 		(and
-			( HANDEMPTY )
-			( CLEAR_R )
-			( ON_R_C )
+			( BLANK_P2_P3 )
+			( AT_T3_P3_P3 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( HOLDING_R )
-			( CLEAR_C )
-			(not ( CLEAR_R ))
-			(not ( HANDEMPTY ))
-			(not ( ON_R_C ))
+			( BLANK_P3_P3 )
+			( AT_T3_P2_P3 )
+			(not ( BLANK_P2_P3 ))
+			(not ( AT_T3_P3_P3 ))
 		)
 	)
-	(:action UNSTACK_R_E
+	(:action MOVE-RIGHT_T2_P3_P3_P2
 		:parameters ()
 		:precondition
 		(and
-			( HANDEMPTY )
-			( CLEAR_R )
-			( ON_R_E )
+			( BLANK_P2_P3 )
+			( AT_T2_P3_P3 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( HOLDING_R )
-			( CLEAR_E )
-			(not ( CLEAR_R ))
-			(not ( HANDEMPTY ))
-			(not ( ON_R_E ))
+			( BLANK_P3_P3 )
+			( AT_T2_P2_P3 )
+			(not ( BLANK_P2_P3 ))
+			(not ( AT_T2_P3_P3 ))
 		)
 	)
-	(:action UNSTACK_R_O
+	(:action MOVE-RIGHT_T1_P3_P3_P2
 		:parameters ()
 		:precondition
 		(and
-			( HANDEMPTY )
-			( CLEAR_R )
-			( ON_R_O )
+			( BLANK_P2_P3 )
+			( AT_T1_P3_P3 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( HOLDING_R )
-			( CLEAR_O )
-			(not ( CLEAR_R ))
-			(not ( HANDEMPTY ))
-			(not ( ON_R_O ))
+			( BLANK_P3_P3 )
+			( AT_T1_P2_P3 )
+			(not ( BLANK_P2_P3 ))
+			(not ( AT_T1_P3_P3 ))
 		)
 	)
-	(:action UNSTACK_R_W
+	(:action MOVE-RIGHT_T8_P2_P2_P1
 		:parameters ()
 		:precondition
 		(and
-			( HANDEMPTY )
-			( CLEAR_R )
-			( ON_R_W )
+			( BLANK_P1_P2 )
+			( AT_T8_P2_P2 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( HOLDING_R )
-			( CLEAR_W )
-			(not ( CLEAR_R ))
-			(not ( HANDEMPTY ))
-			(not ( ON_R_W ))
+			( BLANK_P2_P2 )
+			( AT_T8_P1_P2 )
+			(not ( BLANK_P1_P2 ))
+			(not ( AT_T8_P2_P2 ))
 		)
 	)
-	(:action UNSTACK_R_A
+	(:action MOVE-RIGHT_T8_P2_P1_P1
 		:parameters ()
 		:precondition
 		(and
-			( HANDEMPTY )
-			( CLEAR_R )
-			( ON_R_A )
+			( BLANK_P1_P1 )
+			( AT_T8_P2_P1 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( HOLDING_R )
-			( CLEAR_A )
-			(not ( CLEAR_R ))
-			(not ( HANDEMPTY ))
-			(not ( ON_R_A ))
+			( BLANK_P2_P1 )
+			( AT_T8_P1_P1 )
+			(not ( BLANK_P1_P1 ))
+			(not ( AT_T8_P2_P1 ))
 		)
 	)
-	(:action UNSTACK_R_D
+	(:action MOVE-RIGHT_T5_P2_P3_P1
 		:parameters ()
 		:precondition
 		(and
-			( HANDEMPTY )
-			( CLEAR_R )
-			( ON_R_D )
+			( BLANK_P1_P3 )
+			( AT_T5_P2_P3 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( HOLDING_R )
-			( CLEAR_D )
-			(not ( CLEAR_R ))
-			(not ( HANDEMPTY ))
-			(not ( ON_R_D ))
+			( BLANK_P2_P3 )
+			( AT_T5_P1_P3 )
+			(not ( BLANK_P1_P3 ))
+			(not ( AT_T5_P2_P3 ))
 		)
 	)
-	(:action UNSTACK_D_C
+	(:action MOVE-RIGHT_T5_P2_P1_P1
 		:parameters ()
 		:precondition
 		(and
-			( HANDEMPTY )
-			( CLEAR_D )
-			( ON_D_C )
+			( BLANK_P1_P1 )
+			( AT_T5_P2_P1 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( HOLDING_D )
-			( CLEAR_C )
-			(not ( CLEAR_D ))
-			(not ( HANDEMPTY ))
-			(not ( ON_D_C ))
+			( BLANK_P2_P1 )
+			( AT_T5_P1_P1 )
+			(not ( BLANK_P1_P1 ))
+			(not ( AT_T5_P2_P1 ))
 		)
 	)
-	(:action UNSTACK_D_P
+	(:action MOVE-RIGHT_T3_P2_P3_P1
 		:parameters ()
 		:precondition
 		(and
-			( HANDEMPTY )
-			( CLEAR_D )
-			( ON_D_P )
+			( BLANK_P1_P3 )
+			( AT_T3_P2_P3 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( HOLDING_D )
-			( CLEAR_P )
-			(not ( CLEAR_D ))
-			(not ( HANDEMPTY ))
-			(not ( ON_D_P ))
+			( BLANK_P2_P3 )
+			( AT_T3_P1_P3 )
+			(not ( BLANK_P1_P3 ))
+			(not ( AT_T3_P2_P3 ))
 		)
 	)
-	(:action UNSTACK_D_E
+	(:action MOVE-RIGHT_T2_P2_P3_P1
 		:parameters ()
 		:precondition
 		(and
-			( HANDEMPTY )
-			( CLEAR_D )
-			( ON_D_E )
+			( BLANK_P1_P3 )
+			( AT_T2_P2_P3 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( HOLDING_D )
-			( CLEAR_E )
-			(not ( CLEAR_D ))
-			(not ( HANDEMPTY ))
-			(not ( ON_D_E ))
+			( BLANK_P2_P3 )
+			( AT_T2_P1_P3 )
+			(not ( BLANK_P1_P3 ))
+			(not ( AT_T2_P2_P3 ))
 		)
 	)
-	(:action UNSTACK_D_O
+	(:action MOVE-UP_T8_P3_P1_P2
 		:parameters ()
 		:precondition
 		(and
-			( HANDEMPTY )
-			( CLEAR_D )
-			( ON_D_O )
+			( BLANK_P3_P2 )
+			( AT_T8_P3_P1 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( HOLDING_D )
-			( CLEAR_O )
-			(not ( CLEAR_D ))
-			(not ( HANDEMPTY ))
-			(not ( ON_D_O ))
+			( BLANK_P3_P1 )
+			( AT_T8_P3_P2 )
+			(not ( BLANK_P3_P2 ))
+			(not ( AT_T8_P3_P1 ))
 		)
 	)
-	(:action UNSTACK_D_W
+	(:action MOVE-UP_T8_P2_P1_P2
 		:parameters ()
 		:precondition
 		(and
-			( HANDEMPTY )
-			( CLEAR_D )
-			( ON_D_W )
+			( BLANK_P2_P2 )
+			( AT_T8_P2_P1 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( HOLDING_D )
-			( CLEAR_W )
-			(not ( CLEAR_D ))
-			(not ( HANDEMPTY ))
-			(not ( ON_D_W ))
+			( BLANK_P2_P1 )
+			( AT_T8_P2_P2 )
+			(not ( BLANK_P2_P2 ))
+			(not ( AT_T8_P2_P1 ))
 		)
 	)
-	(:action UNSTACK_D_R
+	(:action MOVE-UP_T7_P3_P1_P2
 		:parameters ()
 		:precondition
 		(and
-			( HANDEMPTY )
-			( CLEAR_D )
-			( ON_D_R )
+			( BLANK_P3_P2 )
+			( AT_T7_P3_P1 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( HOLDING_D )
-			( CLEAR_R )
-			(not ( CLEAR_D ))
-			(not ( HANDEMPTY ))
-			(not ( ON_D_R ))
+			( BLANK_P3_P1 )
+			( AT_T7_P3_P2 )
+			(not ( BLANK_P3_P2 ))
+			(not ( AT_T7_P3_P1 ))
 		)
 	)
-	(:action STACK_C_P
+	(:action MOVE-UP_T6_P3_P1_P2
 		:parameters ()
 		:precondition
 		(and
-			( CLEAR_P )
-			( HOLDING_C )
+			( BLANK_P3_P2 )
+			( AT_T6_P3_P1 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( CLEAR_C )
-			( HANDEMPTY )
-			( ON_C_P )
-			(not ( HOLDING_C ))
-			(not ( CLEAR_P ))
+			( BLANK_P3_P1 )
+			( AT_T6_P3_P2 )
+			(not ( BLANK_P3_P2 ))
+			(not ( AT_T6_P3_P1 ))
 		)
 	)
-	(:action STACK_C_E
+	(:action MOVE-UP_T5_P2_P1_P2
 		:parameters ()
 		:precondition
 		(and
-			( CLEAR_E )
-			( HOLDING_C )
+			( BLANK_P2_P2 )
+			( AT_T5_P2_P1 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( CLEAR_C )
-			( HANDEMPTY )
-			( ON_C_E )
-			(not ( HOLDING_C ))
-			(not ( CLEAR_E ))
+			( BLANK_P2_P1 )
+			( AT_T5_P2_P2 )
+			(not ( BLANK_P2_P2 ))
+			(not ( AT_T5_P2_P1 ))
 		)
 	)
-	(:action STACK_C_O
+	(:action MOVE-UP_T8_P2_P2_P3
 		:parameters ()
 		:precondition
 		(and
-			( CLEAR_O )
-			( HOLDING_C )
+			( BLANK_P2_P3 )
+			( AT_T8_P2_P2 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( CLEAR_C )
-			( HANDEMPTY )
-			( ON_C_O )
-			(not ( HOLDING_C ))
-			(not ( CLEAR_O ))
+			( BLANK_P2_P2 )
+			( AT_T8_P2_P3 )
+			(not ( BLANK_P2_P3 ))
+			(not ( AT_T8_P2_P2 ))
 		)
 	)
-	(:action STACK_C_W
+	(:action MOVE-UP_T7_P3_P2_P3
 		:parameters ()
 		:precondition
 		(and
-			( CLEAR_W )
-			( HOLDING_C )
+			( BLANK_P3_P3 )
+			( AT_T7_P3_P2 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( CLEAR_C )
-			( HANDEMPTY )
-			( ON_C_W )
-			(not ( HOLDING_C ))
-			(not ( CLEAR_W ))
+			( BLANK_P3_P2 )
+			( AT_T7_P3_P3 )
+			(not ( BLANK_P3_P3 ))
+			(not ( AT_T7_P3_P2 ))
 		)
 	)
-	(:action STACK_C_A
+	(:action MOVE-UP_T6_P3_P2_P3
 		:parameters ()
 		:precondition
 		(and
-			( CLEAR_A )
-			( HOLDING_C )
+			( BLANK_P3_P3 )
+			( AT_T6_P3_P2 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( CLEAR_C )
-			( HANDEMPTY )
-			( ON_C_A )
-			(not ( HOLDING_C ))
-			(not ( CLEAR_A ))
+			( BLANK_P3_P2 )
+			( AT_T6_P3_P3 )
+			(not ( BLANK_P3_P3 ))
+			(not ( AT_T6_P3_P2 ))
 		)
 	)
-	(:action STACK_C_R
+	(:action MOVE-UP_T4_P3_P2_P3
 		:parameters ()
 		:precondition
 		(and
-			( CLEAR_R )
-			( HOLDING_C )
+			( BLANK_P3_P3 )
+			( AT_T4_P3_P2 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( CLEAR_C )
-			( HANDEMPTY )
-			( ON_C_R )
-			(not ( HOLDING_C ))
-			(not ( CLEAR_R ))
+			( BLANK_P3_P2 )
+			( AT_T4_P3_P3 )
+			(not ( BLANK_P3_P3 ))
+			(not ( AT_T4_P3_P2 ))
 		)
 	)
-	(:action STACK_C_D
+	(:action MOVE-UP_T3_P3_P2_P3
 		:parameters ()
 		:precondition
 		(and
-			( CLEAR_D )
-			( HOLDING_C )
+			( BLANK_P3_P3 )
+			( AT_T3_P3_P2 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( CLEAR_C )
-			( HANDEMPTY )
-			( ON_C_D )
-			(not ( HOLDING_C ))
-			(not ( CLEAR_D ))
+			( BLANK_P3_P2 )
+			( AT_T3_P3_P3 )
+			(not ( BLANK_P3_P3 ))
+			(not ( AT_T3_P3_P2 ))
 		)
 	)
-	(:action STACK_P_C
+	(:action MOVE-UP_T1_P3_P2_P3
 		:parameters ()
 		:precondition
 		(and
-			( CLEAR_C )
-			( HOLDING_P )
+			( BLANK_P3_P3 )
+			( AT_T1_P3_P2 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( CLEAR_P )
-			( HANDEMPTY )
-			( ON_P_C )
-			(not ( HOLDING_P ))
-			(not ( CLEAR_C ))
+			( BLANK_P3_P2 )
+			( AT_T1_P3_P3 )
+			(not ( BLANK_P3_P3 ))
+			(not ( AT_T1_P3_P2 ))
 		)
 	)
-	(:action STACK_P_E
+	(:action MOVE-DOWN_T7_P3_P3_P2
 		:parameters ()
 		:precondition
 		(and
-			( CLEAR_E )
-			( HOLDING_P )
+			( BLANK_P3_P2 )
+			( AT_T7_P3_P3 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( CLEAR_P )
-			( HANDEMPTY )
-			( ON_P_E )
-			(not ( HOLDING_P ))
-			(not ( CLEAR_E ))
+			( BLANK_P3_P3 )
+			( AT_T7_P3_P2 )
+			(not ( BLANK_P3_P2 ))
+			(not ( AT_T7_P3_P3 ))
 		)
 	)
-	(:action STACK_P_O
+	(:action MOVE-DOWN_T6_P3_P3_P2
 		:parameters ()
 		:precondition
 		(and
-			( CLEAR_O )
-			( HOLDING_P )
+			( BLANK_P3_P2 )
+			( AT_T6_P3_P3 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( CLEAR_P )
-			( HANDEMPTY )
-			( ON_P_O )
-			(not ( HOLDING_P ))
-			(not ( CLEAR_O ))
+			( BLANK_P3_P3 )
+			( AT_T6_P3_P2 )
+			(not ( BLANK_P3_P2 ))
+			(not ( AT_T6_P3_P3 ))
 		)
 	)
-	(:action STACK_P_W
+	(:action MOVE-DOWN_T4_P3_P3_P2
 		:parameters ()
 		:precondition
 		(and
-			( CLEAR_W )
-			( HOLDING_P )
+			( BLANK_P3_P2 )
+			( AT_T4_P3_P3 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( CLEAR_P )
-			( HANDEMPTY )
-			( ON_P_W )
-			(not ( HOLDING_P ))
-			(not ( CLEAR_W ))
+			( BLANK_P3_P3 )
+			( AT_T4_P3_P2 )
+			(not ( BLANK_P3_P2 ))
+			(not ( AT_T4_P3_P3 ))
 		)
 	)
-	(:action STACK_P_A
+	(:action MOVE-DOWN_T1_P3_P3_P2
 		:parameters ()
 		:precondition
 		(and
-			( CLEAR_A )
-			( HOLDING_P )
+			( BLANK_P3_P2 )
+			( AT_T1_P3_P3 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( CLEAR_P )
-			( HANDEMPTY )
-			( ON_P_A )
-			(not ( HOLDING_P ))
-			(not ( CLEAR_A ))
+			( BLANK_P3_P3 )
+			( AT_T1_P3_P2 )
+			(not ( BLANK_P3_P2 ))
+			(not ( AT_T1_P3_P3 ))
 		)
 	)
-	(:action STACK_P_R
+	(:action MOVE-DOWN_T7_P3_P2_P1
 		:parameters ()
 		:precondition
 		(and
-			( CLEAR_R )
-			( HOLDING_P )
+			( BLANK_P3_P1 )
+			( AT_T7_P3_P2 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( CLEAR_P )
-			( HANDEMPTY )
-			( ON_P_R )
-			(not ( HOLDING_P ))
-			(not ( CLEAR_R ))
+			( BLANK_P3_P2 )
+			( AT_T7_P3_P1 )
+			(not ( BLANK_P3_P1 ))
+			(not ( AT_T7_P3_P2 ))
 		)
 	)
-	(:action STACK_P_D
+	(:action MOVE-DOWN_T6_P3_P2_P1
 		:parameters ()
 		:precondition
 		(and
-			( CLEAR_D )
-			( HOLDING_P )
+			( BLANK_P3_P1 )
+			( AT_T6_P3_P2 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( CLEAR_P )
-			( HANDEMPTY )
-			( ON_P_D )
-			(not ( HOLDING_P ))
-			(not ( CLEAR_D ))
+			( BLANK_P3_P2 )
+			( AT_T6_P3_P1 )
+			(not ( BLANK_P3_P1 ))
+			(not ( AT_T6_P3_P2 ))
 		)
 	)
-	(:action STACK_E_C
+	(:action MOVE-DOWN_T4_P3_P2_P1
 		:parameters ()
 		:precondition
 		(and
-			( CLEAR_C )
-			( HOLDING_E )
+			( BLANK_P3_P1 )
+			( AT_T4_P3_P2 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( CLEAR_E )
-			( HANDEMPTY )
-			( ON_E_C )
-			(not ( HOLDING_E ))
-			(not ( CLEAR_C ))
+			( BLANK_P3_P2 )
+			( AT_T4_P3_P1 )
+			(not ( BLANK_P3_P1 ))
+			(not ( AT_T4_P3_P2 ))
 		)
 	)
-	(:action STACK_E_P
+	(:action MOVE-DOWN_T3_P3_P2_P1
 		:parameters ()
 		:precondition
 		(and
-			( CLEAR_P )
-			( HOLDING_E )
+			( BLANK_P3_P1 )
+			( AT_T3_P3_P2 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( CLEAR_E )
-			( HANDEMPTY )
-			( ON_E_P )
-			(not ( HOLDING_E ))
-			(not ( CLEAR_P ))
+			( BLANK_P3_P2 )
+			( AT_T3_P3_P1 )
+			(not ( BLANK_P3_P1 ))
+			(not ( AT_T3_P3_P2 ))
 		)
 	)
-	(:action STACK_E_A
+	(:action MOVE-DOWN_T1_P3_P2_P1
 		:parameters ()
 		:precondition
 		(and
-			( CLEAR_A )
-			( HOLDING_E )
+			( BLANK_P3_P1 )
+			( AT_T1_P3_P2 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( CLEAR_E )
-			( HANDEMPTY )
-			( ON_E_A )
-			(not ( HOLDING_E ))
-			(not ( CLEAR_A ))
+			( BLANK_P3_P2 )
+			( AT_T1_P3_P1 )
+			(not ( BLANK_P3_P1 ))
+			(not ( AT_T1_P3_P2 ))
 		)
 	)
-	(:action STACK_O_C
+	(:action MOVE-LEFT_T6_P1_P1_P2
 		:parameters ()
 		:precondition
 		(and
-			( CLEAR_C )
-			( HOLDING_O )
+			( BLANK_P2_P1 )
+			( AT_T6_P1_P1 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( CLEAR_O )
-			( HANDEMPTY )
-			( ON_O_C )
-			(not ( HOLDING_O ))
-			(not ( CLEAR_C ))
+			( BLANK_P1_P1 )
+			( AT_T6_P2_P1 )
+			(not ( BLANK_P2_P1 ))
+			(not ( AT_T6_P1_P1 ))
 		)
 	)
-	(:action STACK_O_P
+	(:action MOVE-RIGHT_T8_P2_P3_P1
 		:parameters ()
 		:precondition
 		(and
-			( CLEAR_P )
-			( HOLDING_O )
+			( BLANK_P1_P3 )
+			( AT_T8_P2_P3 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( CLEAR_O )
-			( HANDEMPTY )
-			( ON_O_P )
-			(not ( HOLDING_O ))
-			(not ( CLEAR_P ))
+			( BLANK_P2_P3 )
+			( AT_T8_P1_P3 )
+			(not ( BLANK_P1_P3 ))
+			(not ( AT_T8_P2_P3 ))
 		)
 	)
-	(:action STACK_O_A
+	(:action MOVE-RIGHT_T7_P2_P1_P1
 		:parameters ()
 		:precondition
 		(and
-			( CLEAR_A )
-			( HOLDING_O )
+			( BLANK_P1_P1 )
+			( AT_T7_P2_P1 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( CLEAR_O )
-			( HANDEMPTY )
-			( ON_O_A )
-			(not ( HOLDING_O ))
-			(not ( CLEAR_A ))
+			( BLANK_P2_P1 )
+			( AT_T7_P1_P1 )
+			(not ( BLANK_P1_P1 ))
+			(not ( AT_T7_P2_P1 ))
 		)
 	)
-	(:action STACK_W_C
+	(:action MOVE-RIGHT_T6_P2_P3_P1
 		:parameters ()
 		:precondition
 		(and
-			( CLEAR_C )
-			( HOLDING_W )
+			( BLANK_P1_P3 )
+			( AT_T6_P2_P3 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( CLEAR_W )
-			( HANDEMPTY )
-			( ON_W_C )
-			(not ( HOLDING_W ))
-			(not ( CLEAR_C ))
+			( BLANK_P2_P3 )
+			( AT_T6_P1_P3 )
+			(not ( BLANK_P1_P3 ))
+			(not ( AT_T6_P2_P3 ))
 		)
 	)
-	(:action STACK_W_P
+	(:action MOVE-RIGHT_T6_P2_P2_P1
 		:parameters ()
 		:precondition
 		(and
-			( CLEAR_P )
-			( HOLDING_W )
+			( BLANK_P1_P2 )
+			( AT_T6_P2_P2 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( CLEAR_W )
-			( HANDEMPTY )
-			( ON_W_P )
-			(not ( HOLDING_W ))
-			(not ( CLEAR_P ))
+			( BLANK_P2_P2 )
+			( AT_T6_P1_P2 )
+			(not ( BLANK_P1_P2 ))
+			(not ( AT_T6_P2_P2 ))
 		)
 	)
-	(:action STACK_W_A
+	(:action MOVE-RIGHT_T6_P2_P1_P1
 		:parameters ()
 		:precondition
 		(and
-			( CLEAR_A )
-			( HOLDING_W )
+			( BLANK_P1_P1 )
+			( AT_T6_P2_P1 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( CLEAR_W )
-			( HANDEMPTY )
-			( ON_W_A )
-			(not ( HOLDING_W ))
-			(not ( CLEAR_A ))
+			( BLANK_P2_P1 )
+			( AT_T6_P1_P1 )
+			(not ( BLANK_P1_P1 ))
+			(not ( AT_T6_P2_P1 ))
 		)
 	)
-	(:action STACK_A_C
+	(:action MOVE-RIGHT_T5_P2_P2_P1
 		:parameters ()
 		:precondition
 		(and
-			( CLEAR_C )
-			( HOLDING_A )
+			( BLANK_P1_P2 )
+			( AT_T5_P2_P2 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( CLEAR_A )
-			( HANDEMPTY )
-			( ON_A_C )
-			(not ( HOLDING_A ))
-			(not ( CLEAR_C ))
+			( BLANK_P2_P2 )
+			( AT_T5_P1_P2 )
+			(not ( BLANK_P1_P2 ))
+			(not ( AT_T5_P2_P2 ))
 		)
 	)
-	(:action STACK_A_P
+	(:action MOVE-UP_T7_P2_P1_P2
 		:parameters ()
 		:precondition
 		(and
-			( CLEAR_P )
-			( HOLDING_A )
+			( BLANK_P2_P2 )
+			( AT_T7_P2_P1 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( CLEAR_A )
-			( HANDEMPTY )
-			( ON_A_P )
-			(not ( HOLDING_A ))
-			(not ( CLEAR_P ))
+			( BLANK_P2_P1 )
+			( AT_T7_P2_P2 )
+			(not ( BLANK_P2_P2 ))
+			(not ( AT_T7_P2_P1 ))
 		)
 	)
-	(:action STACK_A_E
+	(:action MOVE-UP_T7_P1_P1_P2
 		:parameters ()
 		:precondition
 		(and
-			( CLEAR_E )
-			( HOLDING_A )
+			( BLANK_P1_P2 )
+			( AT_T7_P1_P1 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( CLEAR_A )
-			( HANDEMPTY )
-			( ON_A_E )
-			(not ( HOLDING_A ))
-			(not ( CLEAR_E ))
+			( BLANK_P1_P1 )
+			( AT_T7_P1_P2 )
+			(not ( BLANK_P1_P2 ))
+			(not ( AT_T7_P1_P1 ))
 		)
 	)
-	(:action STACK_A_O
+	(:action MOVE-UP_T6_P2_P1_P2
 		:parameters ()
 		:precondition
 		(and
-			( CLEAR_O )
-			( HOLDING_A )
+			( BLANK_P2_P2 )
+			( AT_T6_P2_P1 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( CLEAR_A )
-			( HANDEMPTY )
-			( ON_A_O )
-			(not ( HOLDING_A ))
-			(not ( CLEAR_O ))
+			( BLANK_P2_P1 )
+			( AT_T6_P2_P2 )
+			(not ( BLANK_P2_P2 ))
+			(not ( AT_T6_P2_P1 ))
 		)
 	)
-	(:action STACK_A_W
+	(:action MOVE-UP_T6_P1_P1_P2
 		:parameters ()
 		:precondition
 		(and
-			( CLEAR_W )
-			( HOLDING_A )
+			( BLANK_P1_P2 )
+			( AT_T6_P1_P1 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( CLEAR_A )
-			( HANDEMPTY )
-			( ON_A_W )
-			(not ( HOLDING_A ))
-			(not ( CLEAR_W ))
+			( BLANK_P1_P1 )
+			( AT_T6_P1_P2 )
+			(not ( BLANK_P1_P2 ))
+			(not ( AT_T6_P1_P1 ))
 		)
 	)
-	(:action STACK_A_R
+	(:action MOVE-UP_T4_P1_P1_P2
 		:parameters ()
 		:precondition
 		(and
-			( CLEAR_R )
-			( HOLDING_A )
+			( BLANK_P1_P2 )
+			( AT_T4_P1_P1 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( CLEAR_A )
-			( HANDEMPTY )
-			( ON_A_R )
-			(not ( HOLDING_A ))
-			(not ( CLEAR_R ))
+			( BLANK_P1_P1 )
+			( AT_T4_P1_P2 )
+			(not ( BLANK_P1_P2 ))
+			(not ( AT_T4_P1_P1 ))
 		)
 	)
-	(:action STACK_A_D
+	(:action MOVE-UP_T2_P1_P1_P2
 		:parameters ()
 		:precondition
 		(and
-			( CLEAR_D )
-			( HOLDING_A )
+			( BLANK_P1_P2 )
+			( AT_T2_P1_P1 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( CLEAR_A )
-			( HANDEMPTY )
-			( ON_A_D )
-			(not ( HOLDING_A ))
-			(not ( CLEAR_D ))
+			( BLANK_P1_P1 )
+			( AT_T2_P1_P2 )
+			(not ( BLANK_P1_P2 ))
+			(not ( AT_T2_P1_P1 ))
 		)
 	)
-	(:action STACK_R_C
+	(:action MOVE-UP_T7_P1_P2_P3
 		:parameters ()
 		:precondition
 		(and
-			( CLEAR_C )
-			( HOLDING_R )
+			( BLANK_P1_P3 )
+			( AT_T7_P1_P2 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( CLEAR_R )
-			( HANDEMPTY )
-			( ON_R_C )
-			(not ( HOLDING_R ))
-			(not ( CLEAR_C ))
+			( BLANK_P1_P2 )
+			( AT_T7_P1_P3 )
+			(not ( BLANK_P1_P3 ))
+			(not ( AT_T7_P1_P2 ))
 		)
 	)
-	(:action STACK_R_P
+	(:action MOVE-UP_T6_P2_P2_P3
 		:parameters ()
 		:precondition
 		(and
-			( CLEAR_P )
-			( HOLDING_R )
+			( BLANK_P2_P3 )
+			( AT_T6_P2_P2 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( CLEAR_R )
-			( HANDEMPTY )
-			( ON_R_P )
-			(not ( HOLDING_R ))
-			(not ( CLEAR_P ))
+			( BLANK_P2_P2 )
+			( AT_T6_P2_P3 )
+			(not ( BLANK_P2_P3 ))
+			(not ( AT_T6_P2_P2 ))
 		)
 	)
-	(:action STACK_R_E
+	(:action MOVE-UP_T5_P2_P2_P3
 		:parameters ()
 		:precondition
 		(and
-			( CLEAR_E )
-			( HOLDING_R )
+			( BLANK_P2_P3 )
+			( AT_T5_P2_P2 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( CLEAR_R )
-			( HANDEMPTY )
-			( ON_R_E )
-			(not ( HOLDING_R ))
-			(not ( CLEAR_E ))
+			( BLANK_P2_P2 )
+			( AT_T5_P2_P3 )
+			(not ( BLANK_P2_P3 ))
+			(not ( AT_T5_P2_P2 ))
 		)
 	)
-	(:action STACK_R_O
+	(:action MOVE-UP_T3_P2_P2_P3
 		:parameters ()
 		:precondition
 		(and
-			( CLEAR_O )
-			( HOLDING_R )
+			( BLANK_P2_P3 )
+			( AT_T3_P2_P2 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( CLEAR_R )
-			( HANDEMPTY )
-			( ON_R_O )
-			(not ( HOLDING_R ))
-			(not ( CLEAR_O ))
+			( BLANK_P2_P2 )
+			( AT_T3_P2_P3 )
+			(not ( BLANK_P2_P3 ))
+			(not ( AT_T3_P2_P2 ))
 		)
 	)
-	(:action STACK_R_W
+	(:action MOVE-UP_T2_P3_P2_P3
 		:parameters ()
 		:precondition
 		(and
-			( CLEAR_W )
-			( HOLDING_R )
+			( BLANK_P3_P3 )
+			( AT_T2_P3_P2 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( CLEAR_R )
-			( HANDEMPTY )
-			( ON_R_W )
-			(not ( HOLDING_R ))
-			(not ( CLEAR_W ))
+			( BLANK_P3_P2 )
+			( AT_T2_P3_P3 )
+			(not ( BLANK_P3_P3 ))
+			(not ( AT_T2_P3_P2 ))
 		)
 	)
-	(:action STACK_R_A
+	(:action MOVE-UP_T2_P2_P2_P3
 		:parameters ()
 		:precondition
 		(and
-			( CLEAR_A )
-			( HOLDING_R )
+			( BLANK_P2_P3 )
+			( AT_T2_P2_P2 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( CLEAR_R )
-			( HANDEMPTY )
-			( ON_R_A )
-			(not ( HOLDING_R ))
-			(not ( CLEAR_A ))
+			( BLANK_P2_P2 )
+			( AT_T2_P2_P3 )
+			(not ( BLANK_P2_P3 ))
+			(not ( AT_T2_P2_P2 ))
 		)
 	)
-	(:action STACK_R_D
+	(:action MOVE-UP_T2_P1_P2_P3
 		:parameters ()
 		:precondition
 		(and
-			( CLEAR_D )
-			( HOLDING_R )
+			( BLANK_P1_P3 )
+			( AT_T2_P1_P2 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( CLEAR_R )
-			( HANDEMPTY )
-			( ON_R_D )
-			(not ( HOLDING_R ))
-			(not ( CLEAR_D ))
+			( BLANK_P1_P2 )
+			( AT_T2_P1_P3 )
+			(not ( BLANK_P1_P3 ))
+			(not ( AT_T2_P1_P2 ))
 		)
 	)
-	(:action STACK_D_C
+	(:action MOVE-DOWN_T8_P2_P3_P2
 		:parameters ()
 		:precondition
 		(and
-			( CLEAR_C )
-			( HOLDING_D )
+			( BLANK_P2_P2 )
+			( AT_T8_P2_P3 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( CLEAR_D )
-			( HANDEMPTY )
-			( ON_D_C )
-			(not ( HOLDING_D ))
-			(not ( CLEAR_C ))
+			( BLANK_P2_P3 )
+			( AT_T8_P2_P2 )
+			(not ( BLANK_P2_P2 ))
+			(not ( AT_T8_P2_P3 ))
 		)
 	)
-	(:action STACK_D_P
+	(:action MOVE-DOWN_T7_P1_P3_P2
 		:parameters ()
 		:precondition
 		(and
-			( CLEAR_P )
-			( HOLDING_D )
+			( BLANK_P1_P2 )
+			( AT_T7_P1_P3 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( CLEAR_D )
-			( HANDEMPTY )
-			( ON_D_P )
-			(not ( HOLDING_D ))
-			(not ( CLEAR_P ))
+			( BLANK_P1_P3 )
+			( AT_T7_P1_P2 )
+			(not ( BLANK_P1_P2 ))
+			(not ( AT_T7_P1_P3 ))
 		)
 	)
-	(:action STACK_D_E
+	(:action MOVE-DOWN_T6_P2_P3_P2
 		:parameters ()
 		:precondition
 		(and
-			( CLEAR_E )
-			( HOLDING_D )
+			( BLANK_P2_P2 )
+			( AT_T6_P2_P3 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( CLEAR_D )
-			( HANDEMPTY )
-			( ON_D_E )
-			(not ( HOLDING_D ))
-			(not ( CLEAR_E ))
+			( BLANK_P2_P3 )
+			( AT_T6_P2_P2 )
+			(not ( BLANK_P2_P2 ))
+			(not ( AT_T6_P2_P3 ))
 		)
 	)
-	(:action STACK_D_O
+	(:action MOVE-DOWN_T5_P3_P3_P2
 		:parameters ()
 		:precondition
 		(and
-			( CLEAR_O )
-			( HOLDING_D )
+			( BLANK_P3_P2 )
+			( AT_T5_P3_P3 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( CLEAR_D )
-			( HANDEMPTY )
-			( ON_D_O )
-			(not ( HOLDING_D ))
-			(not ( CLEAR_O ))
+			( BLANK_P3_P3 )
+			( AT_T5_P3_P2 )
+			(not ( BLANK_P3_P2 ))
+			(not ( AT_T5_P3_P3 ))
 		)
 	)
-	(:action STACK_D_W
+	(:action MOVE-DOWN_T5_P2_P3_P2
 		:parameters ()
 		:precondition
 		(and
-			( CLEAR_W )
-			( HOLDING_D )
+			( BLANK_P2_P2 )
+			( AT_T5_P2_P3 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( CLEAR_D )
-			( HANDEMPTY )
-			( ON_D_W )
-			(not ( HOLDING_D ))
-			(not ( CLEAR_W ))
+			( BLANK_P2_P3 )
+			( AT_T5_P2_P2 )
+			(not ( BLANK_P2_P2 ))
+			(not ( AT_T5_P2_P3 ))
 		)
 	)
-	(:action STACK_D_A
+	(:action MOVE-DOWN_T4_P2_P3_P2
 		:parameters ()
 		:precondition
 		(and
-			( CLEAR_A )
-			( HOLDING_D )
+			( BLANK_P2_P2 )
+			( AT_T4_P2_P3 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( CLEAR_D )
-			( HANDEMPTY )
-			( ON_D_A )
-			(not ( HOLDING_D ))
-			(not ( CLEAR_A ))
+			( BLANK_P2_P3 )
+			( AT_T4_P2_P2 )
+			(not ( BLANK_P2_P2 ))
+			(not ( AT_T4_P2_P3 ))
 		)
 	)
-	(:action STACK_D_R
+	(:action MOVE-DOWN_T4_P1_P3_P2
 		:parameters ()
 		:precondition
 		(and
-			( CLEAR_R )
-			( HOLDING_D )
+			( BLANK_P1_P2 )
+			( AT_T4_P1_P3 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( CLEAR_D )
-			( HANDEMPTY )
-			( ON_D_R )
-			(not ( HOLDING_D ))
-			(not ( CLEAR_R ))
+			( BLANK_P1_P3 )
+			( AT_T4_P1_P2 )
+			(not ( BLANK_P1_P2 ))
+			(not ( AT_T4_P1_P3 ))
 		)
 	)
-	(:action PUT-DOWN_C
+	(:action MOVE-DOWN_T3_P2_P3_P2
 		:parameters ()
 		:precondition
 		(and
-			( HOLDING_C )
+			( BLANK_P2_P2 )
+			( AT_T3_P2_P3 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( CLEAR_C )
-			( HANDEMPTY )
-			( ONTABLE_C )
-			(not ( HOLDING_C ))
+			( BLANK_P2_P3 )
+			( AT_T3_P2_P2 )
+			(not ( BLANK_P2_P2 ))
+			(not ( AT_T3_P2_P3 ))
 		)
 	)
-	(:action PUT-DOWN_P
+	(:action MOVE-DOWN_T3_P1_P3_P2
 		:parameters ()
 		:precondition
 		(and
-			( HOLDING_P )
+			( BLANK_P1_P2 )
+			( AT_T3_P1_P3 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( CLEAR_P )
-			( HANDEMPTY )
-			( ONTABLE_P )
-			(not ( HOLDING_P ))
+			( BLANK_P1_P3 )
+			( AT_T3_P1_P2 )
+			(not ( BLANK_P1_P2 ))
+			(not ( AT_T3_P1_P3 ))
 		)
 	)
-	(:action PUT-DOWN_A
+	(:action MOVE-DOWN_T1_P2_P3_P2
 		:parameters ()
 		:precondition
 		(and
-			( HOLDING_A )
+			( BLANK_P2_P2 )
+			( AT_T1_P2_P3 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( CLEAR_A )
-			( HANDEMPTY )
-			( ONTABLE_A )
-			(not ( HOLDING_A ))
+			( BLANK_P2_P3 )
+			( AT_T1_P2_P2 )
+			(not ( BLANK_P2_P2 ))
+			(not ( AT_T1_P2_P3 ))
 		)
 	)
-	(:action PUT-DOWN_R
+	(:action MOVE-DOWN_T1_P1_P3_P2
 		:parameters ()
 		:precondition
 		(and
-			( HOLDING_R )
+			( BLANK_P1_P2 )
+			( AT_T1_P1_P3 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( CLEAR_R )
-			( HANDEMPTY )
-			( ONTABLE_R )
-			(not ( HOLDING_R ))
+			( BLANK_P1_P3 )
+			( AT_T1_P1_P2 )
+			(not ( BLANK_P1_P2 ))
+			(not ( AT_T1_P1_P3 ))
 		)
 	)
-	(:action PUT-DOWN_D
+	(:action MOVE-DOWN_T8_P3_P2_P1
 		:parameters ()
 		:precondition
 		(and
-			( HOLDING_D )
+			( BLANK_P3_P1 )
+			( AT_T8_P3_P2 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( CLEAR_D )
-			( HANDEMPTY )
-			( ONTABLE_D )
-			(not ( HOLDING_D ))
+			( BLANK_P3_P2 )
+			( AT_T8_P3_P1 )
+			(not ( BLANK_P3_P1 ))
+			(not ( AT_T8_P3_P2 ))
 		)
 	)
-	(:action PICK-UP_C
+	(:action MOVE-DOWN_T8_P2_P2_P1
 		:parameters ()
 		:precondition
 		(and
-			( HANDEMPTY )
-			( ONTABLE_C )
-			( CLEAR_C )
+			( BLANK_P2_P1 )
+			( AT_T8_P2_P2 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( HOLDING_C )
-			(not ( ONTABLE_C ))
-			(not ( CLEAR_C ))
-			(not ( HANDEMPTY ))
+			( BLANK_P2_P2 )
+			( AT_T8_P2_P1 )
+			(not ( BLANK_P2_P1 ))
+			(not ( AT_T8_P2_P2 ))
 		)
 	)
-	(:action PICK-UP_P
+	(:action MOVE-DOWN_T7_P1_P2_P1
 		:parameters ()
 		:precondition
 		(and
-			( HANDEMPTY )
-			( ONTABLE_P )
-			( CLEAR_P )
+			( BLANK_P1_P1 )
+			( AT_T7_P1_P2 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( HOLDING_P )
-			(not ( ONTABLE_P ))
-			(not ( CLEAR_P ))
-			(not ( HANDEMPTY ))
+			( BLANK_P1_P2 )
+			( AT_T7_P1_P1 )
+			(not ( BLANK_P1_P1 ))
+			(not ( AT_T7_P1_P2 ))
 		)
 	)
-	(:action UNSTACK_E_O
+	(:action MOVE-DOWN_T6_P2_P2_P1
 		:parameters ()
 		:precondition
 		(and
-			( HANDEMPTY )
-			( CLEAR_E )
-			( ON_E_O )
+			( BLANK_P2_P1 )
+			( AT_T6_P2_P2 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( HOLDING_E )
-			( CLEAR_O )
-			(not ( CLEAR_E ))
-			(not ( HANDEMPTY ))
-			(not ( ON_E_O ))
+			( BLANK_P2_P2 )
+			( AT_T6_P2_P1 )
+			(not ( BLANK_P2_P1 ))
+			(not ( AT_T6_P2_P2 ))
 		)
 	)
-	(:action UNSTACK_E_W
+	(:action MOVE-DOWN_T5_P2_P2_P1
 		:parameters ()
 		:precondition
 		(and
-			( HANDEMPTY )
-			( CLEAR_E )
-			( ON_E_W )
+			( BLANK_P2_P1 )
+			( AT_T5_P2_P2 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( HOLDING_E )
-			( CLEAR_W )
-			(not ( CLEAR_E ))
-			(not ( HANDEMPTY ))
-			(not ( ON_E_W ))
+			( BLANK_P2_P2 )
+			( AT_T5_P2_P1 )
+			(not ( BLANK_P2_P1 ))
+			(not ( AT_T5_P2_P2 ))
 		)
 	)
-	(:action UNSTACK_E_R
+	(:action MOVE-DOWN_T3_P2_P2_P1
 		:parameters ()
 		:precondition
 		(and
-			( HANDEMPTY )
-			( CLEAR_E )
-			( ON_E_R )
+			( BLANK_P2_P1 )
+			( AT_T3_P2_P2 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( HOLDING_E )
-			( CLEAR_R )
-			(not ( CLEAR_E ))
-			(not ( HANDEMPTY ))
-			(not ( ON_E_R ))
+			( BLANK_P2_P2 )
+			( AT_T3_P2_P1 )
+			(not ( BLANK_P2_P1 ))
+			(not ( AT_T3_P2_P2 ))
 		)
 	)
-	(:action UNSTACK_E_D
+	(:action MOVE-DOWN_T2_P3_P2_P1
 		:parameters ()
 		:precondition
 		(and
-			( HANDEMPTY )
-			( CLEAR_E )
-			( ON_E_D )
+			( BLANK_P3_P1 )
+			( AT_T2_P3_P2 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( HOLDING_E )
-			( CLEAR_D )
-			(not ( CLEAR_E ))
-			(not ( HANDEMPTY ))
-			(not ( ON_E_D ))
+			( BLANK_P3_P2 )
+			( AT_T2_P3_P1 )
+			(not ( BLANK_P3_P1 ))
+			(not ( AT_T2_P3_P2 ))
 		)
 	)
-	(:action UNSTACK_O_E
+	(:action MOVE-DOWN_T2_P2_P2_P1
 		:parameters ()
 		:precondition
 		(and
-			( HANDEMPTY )
-			( CLEAR_O )
-			( ON_O_E )
+			( BLANK_P2_P1 )
+			( AT_T2_P2_P2 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( HOLDING_O )
-			( CLEAR_E )
-			(not ( CLEAR_O ))
-			(not ( HANDEMPTY ))
-			(not ( ON_O_E ))
+			( BLANK_P2_P2 )
+			( AT_T2_P2_P1 )
+			(not ( BLANK_P2_P1 ))
+			(not ( AT_T2_P2_P2 ))
 		)
 	)
-	(:action UNSTACK_O_W
+	(:action MOVE-DOWN_T2_P1_P2_P1
 		:parameters ()
 		:precondition
 		(and
-			( HANDEMPTY )
-			( CLEAR_O )
-			( ON_O_W )
+			( BLANK_P1_P1 )
+			( AT_T2_P1_P2 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( HOLDING_O )
-			( CLEAR_W )
-			(not ( CLEAR_O ))
-			(not ( HANDEMPTY ))
-			(not ( ON_O_W ))
+			( BLANK_P1_P2 )
+			( AT_T2_P1_P1 )
+			(not ( BLANK_P1_P1 ))
+			(not ( AT_T2_P1_P2 ))
 		)
 	)
-	(:action UNSTACK_O_R
+	(:action MOVE-LEFT_T7_P1_P3_P2
 		:parameters ()
 		:precondition
 		(and
-			( HANDEMPTY )
-			( CLEAR_O )
-			( ON_O_R )
+			( BLANK_P2_P3 )
+			( AT_T7_P1_P3 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( HOLDING_O )
-			( CLEAR_R )
-			(not ( CLEAR_O ))
-			(not ( HANDEMPTY ))
-			(not ( ON_O_R ))
+			( BLANK_P1_P3 )
+			( AT_T7_P2_P3 )
+			(not ( BLANK_P2_P3 ))
+			(not ( AT_T7_P1_P3 ))
 		)
 	)
-	(:action UNSTACK_O_D
+	(:action MOVE-LEFT_T7_P1_P2_P2
 		:parameters ()
 		:precondition
 		(and
-			( HANDEMPTY )
-			( CLEAR_O )
-			( ON_O_D )
+			( BLANK_P2_P2 )
+			( AT_T7_P1_P2 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( HOLDING_O )
-			( CLEAR_D )
-			(not ( CLEAR_O ))
-			(not ( HANDEMPTY ))
-			(not ( ON_O_D ))
+			( BLANK_P1_P2 )
+			( AT_T7_P2_P2 )
+			(not ( BLANK_P2_P2 ))
+			(not ( AT_T7_P1_P2 ))
 		)
 	)
-	(:action UNSTACK_W_E
+	(:action MOVE-LEFT_T4_P1_P3_P2
 		:parameters ()
 		:precondition
 		(and
-			( HANDEMPTY )
-			( CLEAR_W )
-			( ON_W_E )
+			( BLANK_P2_P3 )
+			( AT_T4_P1_P3 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( HOLDING_W )
-			( CLEAR_E )
-			(not ( CLEAR_W ))
-			(not ( HANDEMPTY ))
-			(not ( ON_W_E ))
+			( BLANK_P1_P3 )
+			( AT_T4_P2_P3 )
+			(not ( BLANK_P2_P3 ))
+			(not ( AT_T4_P1_P3 ))
 		)
 	)
-	(:action UNSTACK_W_O
+	(:action MOVE-LEFT_T3_P1_P3_P2
 		:parameters ()
 		:precondition
 		(and
-			( HANDEMPTY )
-			( CLEAR_W )
-			( ON_W_O )
+			( BLANK_P2_P3 )
+			( AT_T3_P1_P3 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( HOLDING_W )
-			( CLEAR_O )
-			(not ( CLEAR_W ))
-			(not ( HANDEMPTY ))
-			(not ( ON_W_O ))
+			( BLANK_P1_P3 )
+			( AT_T3_P2_P3 )
+			(not ( BLANK_P2_P3 ))
+			(not ( AT_T3_P1_P3 ))
 		)
 	)
-	(:action UNSTACK_W_R
+	(:action MOVE-LEFT_T2_P1_P2_P2
 		:parameters ()
 		:precondition
 		(and
-			( HANDEMPTY )
-			( CLEAR_W )
-			( ON_W_R )
+			( BLANK_P2_P2 )
+			( AT_T2_P1_P2 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( HOLDING_W )
-			( CLEAR_R )
-			(not ( CLEAR_W ))
-			(not ( HANDEMPTY ))
-			(not ( ON_W_R ))
+			( BLANK_P1_P2 )
+			( AT_T2_P2_P2 )
+			(not ( BLANK_P2_P2 ))
+			(not ( AT_T2_P1_P2 ))
 		)
 	)
-	(:action UNSTACK_W_D
+	(:action MOVE-LEFT_T2_P1_P1_P2
 		:parameters ()
 		:precondition
 		(and
-			( HANDEMPTY )
-			( CLEAR_W )
-			( ON_W_D )
+			( BLANK_P2_P1 )
+			( AT_T2_P1_P1 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( HOLDING_W )
-			( CLEAR_D )
-			(not ( CLEAR_W ))
-			(not ( HANDEMPTY ))
-			(not ( ON_W_D ))
+			( BLANK_P1_P1 )
+			( AT_T2_P2_P1 )
+			(not ( BLANK_P2_P1 ))
+			(not ( AT_T2_P1_P1 ))
 		)
 	)
-	(:action UNSTACK_A_C
+	(:action MOVE-LEFT_T1_P1_P3_P2
 		:parameters ()
 		:precondition
 		(and
-			( HANDEMPTY )
-			( CLEAR_A )
-			( ON_A_C )
+			( BLANK_P2_P3 )
+			( AT_T1_P1_P3 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( HOLDING_A )
-			( CLEAR_C )
-			(not ( CLEAR_A ))
-			(not ( HANDEMPTY ))
-			(not ( ON_A_C ))
+			( BLANK_P1_P3 )
+			( AT_T1_P2_P3 )
+			(not ( BLANK_P2_P3 ))
+			(not ( AT_T1_P1_P3 ))
 		)
 	)
-	(:action UNSTACK_R_P
+	(:action MOVE-LEFT_T8_P2_P3_P3
 		:parameters ()
 		:precondition
 		(and
-			( HANDEMPTY )
-			( CLEAR_R )
-			( ON_R_P )
+			( BLANK_P3_P3 )
+			( AT_T8_P2_P3 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( HOLDING_R )
-			( CLEAR_P )
-			(not ( CLEAR_R ))
-			(not ( HANDEMPTY ))
-			(not ( ON_R_P ))
+			( BLANK_P2_P3 )
+			( AT_T8_P3_P3 )
+			(not ( BLANK_P3_P3 ))
+			(not ( AT_T8_P2_P3 ))
 		)
 	)
-	(:action UNSTACK_D_A
+	(:action MOVE-LEFT_T8_P2_P2_P3
 		:parameters ()
 		:precondition
 		(and
-			( HANDEMPTY )
-			( CLEAR_D )
-			( ON_D_A )
+			( BLANK_P3_P2 )
+			( AT_T8_P2_P2 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( HOLDING_D )
-			( CLEAR_A )
-			(not ( CLEAR_D ))
-			(not ( HANDEMPTY ))
-			(not ( ON_D_A ))
+			( BLANK_P2_P2 )
+			( AT_T8_P3_P2 )
+			(not ( BLANK_P3_P2 ))
+			(not ( AT_T8_P2_P2 ))
 		)
 	)
-	(:action STACK_E_O
+	(:action MOVE-LEFT_T7_P2_P3_P3
 		:parameters ()
 		:precondition
 		(and
-			( CLEAR_O )
-			( HOLDING_E )
+			( BLANK_P3_P3 )
+			( AT_T7_P2_P3 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( CLEAR_E )
-			( HANDEMPTY )
-			( ON_E_O )
-			(not ( HOLDING_E ))
-			(not ( CLEAR_O ))
+			( BLANK_P2_P3 )
+			( AT_T7_P3_P3 )
+			(not ( BLANK_P3_P3 ))
+			(not ( AT_T7_P2_P3 ))
 		)
 	)
-	(:action STACK_E_W
+	(:action MOVE-LEFT_T7_P2_P2_P3
 		:parameters ()
 		:precondition
 		(and
-			( CLEAR_W )
-			( HOLDING_E )
+			( BLANK_P3_P2 )
+			( AT_T7_P2_P2 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( CLEAR_E )
-			( HANDEMPTY )
-			( ON_E_W )
-			(not ( HOLDING_E ))
-			(not ( CLEAR_W ))
+			( BLANK_P2_P2 )
+			( AT_T7_P3_P2 )
+			(not ( BLANK_P3_P2 ))
+			(not ( AT_T7_P2_P2 ))
 		)
 	)
-	(:action STACK_E_R
+	(:action MOVE-LEFT_T7_P2_P1_P3
 		:parameters ()
 		:precondition
 		(and
-			( CLEAR_R )
-			( HOLDING_E )
+			( BLANK_P3_P1 )
+			( AT_T7_P2_P1 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( CLEAR_E )
-			( HANDEMPTY )
-			( ON_E_R )
-			(not ( HOLDING_E ))
-			(not ( CLEAR_R ))
+			( BLANK_P2_P1 )
+			( AT_T7_P3_P1 )
+			(not ( BLANK_P3_P1 ))
+			(not ( AT_T7_P2_P1 ))
 		)
 	)
-	(:action STACK_E_D
+	(:action MOVE-LEFT_T6_P2_P3_P3
 		:parameters ()
 		:precondition
 		(and
-			( CLEAR_D )
-			( HOLDING_E )
+			( BLANK_P3_P3 )
+			( AT_T6_P2_P3 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( CLEAR_E )
-			( HANDEMPTY )
-			( ON_E_D )
-			(not ( HOLDING_E ))
-			(not ( CLEAR_D ))
+			( BLANK_P2_P3 )
+			( AT_T6_P3_P3 )
+			(not ( BLANK_P3_P3 ))
+			(not ( AT_T6_P2_P3 ))
 		)
 	)
-	(:action STACK_O_E
+	(:action MOVE-LEFT_T6_P2_P2_P3
 		:parameters ()
 		:precondition
 		(and
-			( CLEAR_E )
-			( HOLDING_O )
+			( BLANK_P3_P2 )
+			( AT_T6_P2_P2 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( CLEAR_O )
-			( HANDEMPTY )
-			( ON_O_E )
-			(not ( HOLDING_O ))
-			(not ( CLEAR_E ))
+			( BLANK_P2_P2 )
+			( AT_T6_P3_P2 )
+			(not ( BLANK_P3_P2 ))
+			(not ( AT_T6_P2_P2 ))
 		)
 	)
-	(:action STACK_O_W
+	(:action MOVE-LEFT_T5_P2_P3_P3
 		:parameters ()
 		:precondition
 		(and
-			( CLEAR_W )
-			( HOLDING_O )
+			( BLANK_P3_P3 )
+			( AT_T5_P2_P3 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( CLEAR_O )
-			( HANDEMPTY )
-			( ON_O_W )
-			(not ( HOLDING_O ))
-			(not ( CLEAR_W ))
+			( BLANK_P2_P3 )
+			( AT_T5_P3_P3 )
+			(not ( BLANK_P3_P3 ))
+			(not ( AT_T5_P2_P3 ))
 		)
 	)
-	(:action STACK_O_R
+	(:action MOVE-LEFT_T5_P2_P2_P3
 		:parameters ()
 		:precondition
 		(and
-			( CLEAR_R )
-			( HOLDING_O )
+			( BLANK_P3_P2 )
+			( AT_T5_P2_P2 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( CLEAR_O )
-			( HANDEMPTY )
-			( ON_O_R )
-			(not ( HOLDING_O ))
-			(not ( CLEAR_R ))
+			( BLANK_P2_P2 )
+			( AT_T5_P3_P2 )
+			(not ( BLANK_P3_P2 ))
+			(not ( AT_T5_P2_P2 ))
 		)
 	)
-	(:action STACK_O_D
+	(:action MOVE-LEFT_T5_P2_P1_P3
 		:parameters ()
 		:precondition
 		(and
-			( CLEAR_D )
-			( HOLDING_O )
+			( BLANK_P3_P1 )
+			( AT_T5_P2_P1 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( CLEAR_O )
-			( HANDEMPTY )
-			( ON_O_D )
-			(not ( HOLDING_O ))
-			(not ( CLEAR_D ))
+			( BLANK_P2_P1 )
+			( AT_T5_P3_P1 )
+			(not ( BLANK_P3_P1 ))
+			(not ( AT_T5_P2_P1 ))
 		)
 	)
-	(:action STACK_W_E
+	(:action MOVE-LEFT_T4_P2_P3_P3
 		:parameters ()
 		:precondition
 		(and
-			( CLEAR_E )
-			( HOLDING_W )
+			( BLANK_P3_P3 )
+			( AT_T4_P2_P3 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( CLEAR_W )
-			( HANDEMPTY )
-			( ON_W_E )
-			(not ( HOLDING_W ))
-			(not ( CLEAR_E ))
+			( BLANK_P2_P3 )
+			( AT_T4_P3_P3 )
+			(not ( BLANK_P3_P3 ))
+			(not ( AT_T4_P2_P3 ))
 		)
 	)
-	(:action STACK_W_O
+	(:action MOVE-LEFT_T4_P2_P2_P3
 		:parameters ()
 		:precondition
 		(and
-			( CLEAR_O )
-			( HOLDING_W )
+			( BLANK_P3_P2 )
+			( AT_T4_P2_P2 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( CLEAR_W )
-			( HANDEMPTY )
-			( ON_W_O )
-			(not ( HOLDING_W ))
-			(not ( CLEAR_O ))
+			( BLANK_P2_P2 )
+			( AT_T4_P3_P2 )
+			(not ( BLANK_P3_P2 ))
+			(not ( AT_T4_P2_P2 ))
 		)
 	)
-	(:action STACK_W_R
+	(:action MOVE-LEFT_T3_P2_P2_P3
 		:parameters ()
 		:precondition
 		(and
-			( CLEAR_R )
-			( HOLDING_W )
+			( BLANK_P3_P2 )
+			( AT_T3_P2_P2 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( CLEAR_W )
-			( HANDEMPTY )
-			( ON_W_R )
-			(not ( HOLDING_W ))
-			(not ( CLEAR_R ))
+			( BLANK_P2_P2 )
+			( AT_T3_P3_P2 )
+			(not ( BLANK_P3_P2 ))
+			(not ( AT_T3_P2_P2 ))
 		)
 	)
-	(:action STACK_W_D
+	(:action MOVE-LEFT_T2_P2_P2_P3
 		:parameters ()
 		:precondition
 		(and
-			( CLEAR_D )
-			( HOLDING_W )
+			( BLANK_P3_P2 )
+			( AT_T2_P2_P2 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( CLEAR_W )
-			( HANDEMPTY )
-			( ON_W_D )
-			(not ( HOLDING_W ))
-			(not ( CLEAR_D ))
+			( BLANK_P2_P2 )
+			( AT_T2_P3_P2 )
+			(not ( BLANK_P3_P2 ))
+			(not ( AT_T2_P2_P2 ))
 		)
 	)
-	(:action PUT-DOWN_E
+	(:action MOVE-LEFT_T1_P2_P3_P3
 		:parameters ()
 		:precondition
 		(and
-			( HOLDING_E )
+			( BLANK_P3_P3 )
+			( AT_T1_P2_P3 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( CLEAR_E )
-			( HANDEMPTY )
-			( ONTABLE_E )
-			(not ( HOLDING_E ))
+			( BLANK_P2_P3 )
+			( AT_T1_P3_P3 )
+			(not ( BLANK_P3_P3 ))
+			(not ( AT_T1_P2_P3 ))
 		)
 	)
-	(:action PUT-DOWN_O
+	(:action MOVE-LEFT_T1_P2_P2_P3
 		:parameters ()
 		:precondition
 		(and
-			( HOLDING_O )
+			( BLANK_P3_P2 )
+			( AT_T1_P2_P2 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( CLEAR_O )
-			( HANDEMPTY )
-			( ONTABLE_O )
-			(not ( HOLDING_O ))
+			( BLANK_P2_P2 )
+			( AT_T1_P3_P2 )
+			(not ( BLANK_P3_P2 ))
+			(not ( AT_T1_P2_P2 ))
 		)
 	)
-	(:action PUT-DOWN_W
+	(:action MOVE-RIGHT_T8_P3_P2_P2
 		:parameters ()
 		:precondition
 		(and
-			( HOLDING_W )
+			( BLANK_P2_P2 )
+			( AT_T8_P3_P2 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( CLEAR_W )
-			( HANDEMPTY )
-			( ONTABLE_W )
-			(not ( HOLDING_W ))
+			( BLANK_P3_P2 )
+			( AT_T8_P2_P2 )
+			(not ( BLANK_P2_P2 ))
+			(not ( AT_T8_P3_P2 ))
 		)
 	)
-	(:action PICK-UP_E
+	(:action MOVE-RIGHT_T5_P3_P3_P2
 		:parameters ()
 		:precondition
 		(and
-			( HANDEMPTY )
-			( ONTABLE_E )
-			( CLEAR_E )
+			( BLANK_P2_P3 )
+			( AT_T5_P3_P3 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( HOLDING_E )
-			(not ( ONTABLE_E ))
-			(not ( CLEAR_E ))
-			(not ( HANDEMPTY ))
+			( BLANK_P3_P3 )
+			( AT_T5_P2_P3 )
+			(not ( BLANK_P2_P3 ))
+			(not ( AT_T5_P3_P3 ))
 		)
 	)
-	(:action PICK-UP_O
+	(:action MOVE-RIGHT_T5_P3_P1_P2
 		:parameters ()
 		:precondition
 		(and
-			( HANDEMPTY )
-			( ONTABLE_O )
-			( CLEAR_O )
+			( BLANK_P2_P1 )
+			( AT_T5_P3_P1 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( HOLDING_O )
-			(not ( ONTABLE_O ))
-			(not ( CLEAR_O ))
-			(not ( HANDEMPTY ))
+			( BLANK_P3_P1 )
+			( AT_T5_P2_P1 )
+			(not ( BLANK_P2_P1 ))
+			(not ( AT_T5_P3_P1 ))
 		)
 	)
-	(:action PICK-UP_W
+	(:action MOVE-RIGHT_T4_P3_P2_P2
 		:parameters ()
 		:precondition
 		(and
-			( HANDEMPTY )
-			( ONTABLE_W )
-			( CLEAR_W )
+			( BLANK_P2_P2 )
+			( AT_T4_P3_P2 )
 		)
 		:effect
 		(and
 			(increase (total-cost) 1)
-			( HOLDING_W )
-			(not ( ONTABLE_W ))
-			(not ( CLEAR_W ))
-			(not ( HANDEMPTY ))
+			( BLANK_P3_P2 )
+			( AT_T4_P2_P2 )
+			(not ( BLANK_P2_P2 ))
+			(not ( AT_T4_P3_P2 ))
+		)
+	)
+	(:action MOVE-RIGHT_T4_P3_P1_P2
+		:parameters ()
+		:precondition
+		(and
+			( BLANK_P2_P1 )
+			( AT_T4_P3_P1 )
+		)
+		:effect
+		(and
+			(increase (total-cost) 1)
+			( BLANK_P3_P1 )
+			( AT_T4_P2_P1 )
+			(not ( BLANK_P2_P1 ))
+			(not ( AT_T4_P3_P1 ))
+		)
+	)
+	(:action MOVE-RIGHT_T3_P3_P2_P2
+		:parameters ()
+		:precondition
+		(and
+			( BLANK_P2_P2 )
+			( AT_T3_P3_P2 )
+		)
+		:effect
+		(and
+			(increase (total-cost) 1)
+			( BLANK_P3_P2 )
+			( AT_T3_P2_P2 )
+			(not ( BLANK_P2_P2 ))
+			(not ( AT_T3_P3_P2 ))
+		)
+	)
+	(:action MOVE-RIGHT_T3_P3_P1_P2
+		:parameters ()
+		:precondition
+		(and
+			( BLANK_P2_P1 )
+			( AT_T3_P3_P1 )
+		)
+		:effect
+		(and
+			(increase (total-cost) 1)
+			( BLANK_P3_P1 )
+			( AT_T3_P2_P1 )
+			(not ( BLANK_P2_P1 ))
+			(not ( AT_T3_P3_P1 ))
+		)
+	)
+	(:action MOVE-RIGHT_T2_P3_P2_P2
+		:parameters ()
+		:precondition
+		(and
+			( BLANK_P2_P2 )
+			( AT_T2_P3_P2 )
+		)
+		:effect
+		(and
+			(increase (total-cost) 1)
+			( BLANK_P3_P2 )
+			( AT_T2_P2_P2 )
+			(not ( BLANK_P2_P2 ))
+			(not ( AT_T2_P3_P2 ))
+		)
+	)
+	(:action MOVE-RIGHT_T1_P3_P2_P2
+		:parameters ()
+		:precondition
+		(and
+			( BLANK_P2_P2 )
+			( AT_T1_P3_P2 )
+		)
+		:effect
+		(and
+			(increase (total-cost) 1)
+			( BLANK_P3_P2 )
+			( AT_T1_P2_P2 )
+			(not ( BLANK_P2_P2 ))
+			(not ( AT_T1_P3_P2 ))
+		)
+	)
+	(:action MOVE-RIGHT_T1_P3_P1_P2
+		:parameters ()
+		:precondition
+		(and
+			( BLANK_P2_P1 )
+			( AT_T1_P3_P1 )
+		)
+		:effect
+		(and
+			(increase (total-cost) 1)
+			( BLANK_P3_P1 )
+			( AT_T1_P2_P1 )
+			(not ( BLANK_P2_P1 ))
+			(not ( AT_T1_P3_P1 ))
+		)
+	)
+	(:action MOVE-RIGHT_T4_P2_P3_P1
+		:parameters ()
+		:precondition
+		(and
+			( BLANK_P1_P3 )
+			( AT_T4_P2_P3 )
+		)
+		:effect
+		(and
+			(increase (total-cost) 1)
+			( BLANK_P2_P3 )
+			( AT_T4_P1_P3 )
+			(not ( BLANK_P1_P3 ))
+			(not ( AT_T4_P2_P3 ))
+		)
+	)
+	(:action MOVE-RIGHT_T2_P2_P2_P1
+		:parameters ()
+		:precondition
+		(and
+			( BLANK_P1_P2 )
+			( AT_T2_P2_P2 )
+		)
+		:effect
+		(and
+			(increase (total-cost) 1)
+			( BLANK_P2_P2 )
+			( AT_T2_P1_P2 )
+			(not ( BLANK_P1_P2 ))
+			(not ( AT_T2_P2_P2 ))
+		)
+	)
+	(:action MOVE-RIGHT_T1_P2_P3_P1
+		:parameters ()
+		:precondition
+		(and
+			( BLANK_P1_P3 )
+			( AT_T1_P2_P3 )
+		)
+		:effect
+		(and
+			(increase (total-cost) 1)
+			( BLANK_P2_P3 )
+			( AT_T1_P1_P3 )
+			(not ( BLANK_P1_P3 ))
+			(not ( AT_T1_P2_P3 ))
+		)
+	)
+	(:action MOVE-UP_T5_P3_P1_P2
+		:parameters ()
+		:precondition
+		(and
+			( BLANK_P3_P2 )
+			( AT_T5_P3_P1 )
+		)
+		:effect
+		(and
+			(increase (total-cost) 1)
+			( BLANK_P3_P1 )
+			( AT_T5_P3_P2 )
+			(not ( BLANK_P3_P2 ))
+			(not ( AT_T5_P3_P1 ))
+		)
+	)
+	(:action MOVE-UP_T4_P3_P1_P2
+		:parameters ()
+		:precondition
+		(and
+			( BLANK_P3_P2 )
+			( AT_T4_P3_P1 )
+		)
+		:effect
+		(and
+			(increase (total-cost) 1)
+			( BLANK_P3_P1 )
+			( AT_T4_P3_P2 )
+			(not ( BLANK_P3_P2 ))
+			(not ( AT_T4_P3_P1 ))
+		)
+	)
+	(:action MOVE-UP_T3_P3_P1_P2
+		:parameters ()
+		:precondition
+		(and
+			( BLANK_P3_P2 )
+			( AT_T3_P3_P1 )
+		)
+		:effect
+		(and
+			(increase (total-cost) 1)
+			( BLANK_P3_P1 )
+			( AT_T3_P3_P2 )
+			(not ( BLANK_P3_P2 ))
+			(not ( AT_T3_P3_P1 ))
+		)
+	)
+	(:action MOVE-UP_T1_P3_P1_P2
+		:parameters ()
+		:precondition
+		(and
+			( BLANK_P3_P2 )
+			( AT_T1_P3_P1 )
+		)
+		:effect
+		(and
+			(increase (total-cost) 1)
+			( BLANK_P3_P1 )
+			( AT_T1_P3_P2 )
+			(not ( BLANK_P3_P2 ))
+			(not ( AT_T1_P3_P1 ))
+		)
+	)
+	(:action MOVE-UP_T8_P3_P2_P3
+		:parameters ()
+		:precondition
+		(and
+			( BLANK_P3_P3 )
+			( AT_T8_P3_P2 )
+		)
+		:effect
+		(and
+			(increase (total-cost) 1)
+			( BLANK_P3_P2 )
+			( AT_T8_P3_P3 )
+			(not ( BLANK_P3_P3 ))
+			(not ( AT_T8_P3_P2 ))
+		)
+	)
+	(:action MOVE-DOWN_T7_P2_P2_P1
+		:parameters ()
+		:precondition
+		(and
+			( BLANK_P2_P1 )
+			( AT_T7_P2_P2 )
+		)
+		:effect
+		(and
+			(increase (total-cost) 1)
+			( BLANK_P2_P2 )
+			( AT_T7_P2_P1 )
+			(not ( BLANK_P2_P1 ))
+			(not ( AT_T7_P2_P2 ))
+		)
+	)
+	(:action MOVE-DOWN_T6_P1_P2_P1
+		:parameters ()
+		:precondition
+		(and
+			( BLANK_P1_P1 )
+			( AT_T6_P1_P2 )
+		)
+		:effect
+		(and
+			(increase (total-cost) 1)
+			( BLANK_P1_P2 )
+			( AT_T6_P1_P1 )
+			(not ( BLANK_P1_P1 ))
+			(not ( AT_T6_P1_P2 ))
+		)
+	)
+	(:action MOVE-DOWN_T4_P1_P2_P1
+		:parameters ()
+		:precondition
+		(and
+			( BLANK_P1_P1 )
+			( AT_T4_P1_P2 )
+		)
+		:effect
+		(and
+			(increase (total-cost) 1)
+			( BLANK_P1_P2 )
+			( AT_T4_P1_P1 )
+			(not ( BLANK_P1_P1 ))
+			(not ( AT_T4_P1_P2 ))
+		)
+	)
+	(:action MOVE-DOWN_T1_P2_P2_P1
+		:parameters ()
+		:precondition
+		(and
+			( BLANK_P2_P1 )
+			( AT_T1_P2_P2 )
+		)
+		:effect
+		(and
+			(increase (total-cost) 1)
+			( BLANK_P2_P2 )
+			( AT_T1_P2_P1 )
+			(not ( BLANK_P2_P1 ))
+			(not ( AT_T1_P2_P2 ))
+		)
+	)
+	(:action MOVE-DOWN_T1_P1_P2_P1
+		:parameters ()
+		:precondition
+		(and
+			( BLANK_P1_P1 )
+			( AT_T1_P1_P2 )
+		)
+		:effect
+		(and
+			(increase (total-cost) 1)
+			( BLANK_P1_P2 )
+			( AT_T1_P1_P1 )
+			(not ( BLANK_P1_P1 ))
+			(not ( AT_T1_P1_P2 ))
+		)
+	)
+	(:action MOVE-LEFT_T6_P1_P3_P2
+		:parameters ()
+		:precondition
+		(and
+			( BLANK_P2_P3 )
+			( AT_T6_P1_P3 )
+		)
+		:effect
+		(and
+			(increase (total-cost) 1)
+			( BLANK_P1_P3 )
+			( AT_T6_P2_P3 )
+			(not ( BLANK_P2_P3 ))
+			(not ( AT_T6_P1_P3 ))
+		)
+	)
+	(:action MOVE-LEFT_T6_P1_P2_P2
+		:parameters ()
+		:precondition
+		(and
+			( BLANK_P2_P2 )
+			( AT_T6_P1_P2 )
+		)
+		:effect
+		(and
+			(increase (total-cost) 1)
+			( BLANK_P1_P2 )
+			( AT_T6_P2_P2 )
+			(not ( BLANK_P2_P2 ))
+			(not ( AT_T6_P1_P2 ))
+		)
+	)
+	(:action MOVE-LEFT_T4_P1_P2_P2
+		:parameters ()
+		:precondition
+		(and
+			( BLANK_P2_P2 )
+			( AT_T4_P1_P2 )
+		)
+		:effect
+		(and
+			(increase (total-cost) 1)
+			( BLANK_P1_P2 )
+			( AT_T4_P2_P2 )
+			(not ( BLANK_P2_P2 ))
+			(not ( AT_T4_P1_P2 ))
+		)
+	)
+	(:action MOVE-LEFT_T4_P1_P1_P2
+		:parameters ()
+		:precondition
+		(and
+			( BLANK_P2_P1 )
+			( AT_T4_P1_P1 )
+		)
+		:effect
+		(and
+			(increase (total-cost) 1)
+			( BLANK_P1_P1 )
+			( AT_T4_P2_P1 )
+			(not ( BLANK_P2_P1 ))
+			(not ( AT_T4_P1_P1 ))
+		)
+	)
+	(:action MOVE-LEFT_T3_P1_P2_P2
+		:parameters ()
+		:precondition
+		(and
+			( BLANK_P2_P2 )
+			( AT_T3_P1_P2 )
+		)
+		:effect
+		(and
+			(increase (total-cost) 1)
+			( BLANK_P1_P2 )
+			( AT_T3_P2_P2 )
+			(not ( BLANK_P2_P2 ))
+			(not ( AT_T3_P1_P2 ))
+		)
+	)
+	(:action MOVE-LEFT_T1_P1_P2_P2
+		:parameters ()
+		:precondition
+		(and
+			( BLANK_P2_P2 )
+			( AT_T1_P1_P2 )
+		)
+		:effect
+		(and
+			(increase (total-cost) 1)
+			( BLANK_P1_P2 )
+			( AT_T1_P2_P2 )
+			(not ( BLANK_P2_P2 ))
+			(not ( AT_T1_P1_P2 ))
+		)
+	)
+	(:action MOVE-RIGHT_T8_P3_P3_P2
+		:parameters ()
+		:precondition
+		(and
+			( BLANK_P2_P3 )
+			( AT_T8_P3_P3 )
+		)
+		:effect
+		(and
+			(increase (total-cost) 1)
+			( BLANK_P3_P3 )
+			( AT_T8_P2_P3 )
+			(not ( BLANK_P2_P3 ))
+			(not ( AT_T8_P3_P3 ))
+		)
+	)
+	(:action MOVE-RIGHT_T5_P3_P2_P2
+		:parameters ()
+		:precondition
+		(and
+			( BLANK_P2_P2 )
+			( AT_T5_P3_P2 )
+		)
+		:effect
+		(and
+			(increase (total-cost) 1)
+			( BLANK_P3_P2 )
+			( AT_T5_P2_P2 )
+			(not ( BLANK_P2_P2 ))
+			(not ( AT_T5_P3_P2 ))
+		)
+	)
+	(:action MOVE-RIGHT_T7_P2_P3_P1
+		:parameters ()
+		:precondition
+		(and
+			( BLANK_P1_P3 )
+			( AT_T7_P2_P3 )
+		)
+		:effect
+		(and
+			(increase (total-cost) 1)
+			( BLANK_P2_P3 )
+			( AT_T7_P1_P3 )
+			(not ( BLANK_P1_P3 ))
+			(not ( AT_T7_P2_P3 ))
+		)
+	)
+	(:action MOVE-RIGHT_T7_P2_P2_P1
+		:parameters ()
+		:precondition
+		(and
+			( BLANK_P1_P2 )
+			( AT_T7_P2_P2 )
+		)
+		:effect
+		(and
+			(increase (total-cost) 1)
+			( BLANK_P2_P2 )
+			( AT_T7_P1_P2 )
+			(not ( BLANK_P1_P2 ))
+			(not ( AT_T7_P2_P2 ))
+		)
+	)
+	(:action MOVE-RIGHT_T4_P2_P1_P1
+		:parameters ()
+		:precondition
+		(and
+			( BLANK_P1_P1 )
+			( AT_T4_P2_P1 )
+		)
+		:effect
+		(and
+			(increase (total-cost) 1)
+			( BLANK_P2_P1 )
+			( AT_T4_P1_P1 )
+			(not ( BLANK_P1_P1 ))
+			(not ( AT_T4_P2_P1 ))
+		)
+	)
+	(:action MOVE-RIGHT_T3_P2_P2_P1
+		:parameters ()
+		:precondition
+		(and
+			( BLANK_P1_P2 )
+			( AT_T3_P2_P2 )
+		)
+		:effect
+		(and
+			(increase (total-cost) 1)
+			( BLANK_P2_P2 )
+			( AT_T3_P1_P2 )
+			(not ( BLANK_P1_P2 ))
+			(not ( AT_T3_P2_P2 ))
+		)
+	)
+	(:action MOVE-RIGHT_T3_P2_P1_P1
+		:parameters ()
+		:precondition
+		(and
+			( BLANK_P1_P1 )
+			( AT_T3_P2_P1 )
+		)
+		:effect
+		(and
+			(increase (total-cost) 1)
+			( BLANK_P2_P1 )
+			( AT_T3_P1_P1 )
+			(not ( BLANK_P1_P1 ))
+			(not ( AT_T3_P2_P1 ))
+		)
+	)
+	(:action MOVE-RIGHT_T2_P2_P1_P1
+		:parameters ()
+		:precondition
+		(and
+			( BLANK_P1_P1 )
+			( AT_T2_P2_P1 )
+		)
+		:effect
+		(and
+			(increase (total-cost) 1)
+			( BLANK_P2_P1 )
+			( AT_T2_P1_P1 )
+			(not ( BLANK_P1_P1 ))
+			(not ( AT_T2_P2_P1 ))
+		)
+	)
+	(:action MOVE-RIGHT_T1_P2_P2_P1
+		:parameters ()
+		:precondition
+		(and
+			( BLANK_P1_P2 )
+			( AT_T1_P2_P2 )
+		)
+		:effect
+		(and
+			(increase (total-cost) 1)
+			( BLANK_P2_P2 )
+			( AT_T1_P1_P2 )
+			(not ( BLANK_P1_P2 ))
+			(not ( AT_T1_P2_P2 ))
+		)
+	)
+	(:action MOVE-UP_T4_P2_P1_P2
+		:parameters ()
+		:precondition
+		(and
+			( BLANK_P2_P2 )
+			( AT_T4_P2_P1 )
+		)
+		:effect
+		(and
+			(increase (total-cost) 1)
+			( BLANK_P2_P1 )
+			( AT_T4_P2_P2 )
+			(not ( BLANK_P2_P2 ))
+			(not ( AT_T4_P2_P1 ))
+		)
+	)
+	(:action MOVE-UP_T3_P2_P1_P2
+		:parameters ()
+		:precondition
+		(and
+			( BLANK_P2_P2 )
+			( AT_T3_P2_P1 )
+		)
+		:effect
+		(and
+			(increase (total-cost) 1)
+			( BLANK_P2_P1 )
+			( AT_T3_P2_P2 )
+			(not ( BLANK_P2_P2 ))
+			(not ( AT_T3_P2_P1 ))
+		)
+	)
+	(:action MOVE-UP_T2_P3_P1_P2
+		:parameters ()
+		:precondition
+		(and
+			( BLANK_P3_P2 )
+			( AT_T2_P3_P1 )
+		)
+		:effect
+		(and
+			(increase (total-cost) 1)
+			( BLANK_P3_P1 )
+			( AT_T2_P3_P2 )
+			(not ( BLANK_P3_P2 ))
+			(not ( AT_T2_P3_P1 ))
+		)
+	)
+	(:action MOVE-UP_T2_P2_P1_P2
+		:parameters ()
+		:precondition
+		(and
+			( BLANK_P2_P2 )
+			( AT_T2_P2_P1 )
+		)
+		:effect
+		(and
+			(increase (total-cost) 1)
+			( BLANK_P2_P1 )
+			( AT_T2_P2_P2 )
+			(not ( BLANK_P2_P2 ))
+			(not ( AT_T2_P2_P1 ))
+		)
+	)
+	(:action MOVE-UP_T7_P2_P2_P3
+		:parameters ()
+		:precondition
+		(and
+			( BLANK_P2_P3 )
+			( AT_T7_P2_P2 )
+		)
+		:effect
+		(and
+			(increase (total-cost) 1)
+			( BLANK_P2_P2 )
+			( AT_T7_P2_P3 )
+			(not ( BLANK_P2_P3 ))
+			(not ( AT_T7_P2_P2 ))
+		)
+	)
+	(:action MOVE-UP_T6_P1_P2_P3
+		:parameters ()
+		:precondition
+		(and
+			( BLANK_P1_P3 )
+			( AT_T6_P1_P2 )
+		)
+		:effect
+		(and
+			(increase (total-cost) 1)
+			( BLANK_P1_P2 )
+			( AT_T6_P1_P3 )
+			(not ( BLANK_P1_P3 ))
+			(not ( AT_T6_P1_P2 ))
+		)
+	)
+	(:action MOVE-UP_T5_P3_P2_P3
+		:parameters ()
+		:precondition
+		(and
+			( BLANK_P3_P3 )
+			( AT_T5_P3_P2 )
+		)
+		:effect
+		(and
+			(increase (total-cost) 1)
+			( BLANK_P3_P2 )
+			( AT_T5_P3_P3 )
+			(not ( BLANK_P3_P3 ))
+			(not ( AT_T5_P3_P2 ))
+		)
+	)
+	(:action MOVE-UP_T4_P2_P2_P3
+		:parameters ()
+		:precondition
+		(and
+			( BLANK_P2_P3 )
+			( AT_T4_P2_P2 )
+		)
+		:effect
+		(and
+			(increase (total-cost) 1)
+			( BLANK_P2_P2 )
+			( AT_T4_P2_P3 )
+			(not ( BLANK_P2_P3 ))
+			(not ( AT_T4_P2_P2 ))
+		)
+	)
+	(:action MOVE-UP_T4_P1_P2_P3
+		:parameters ()
+		:precondition
+		(and
+			( BLANK_P1_P3 )
+			( AT_T4_P1_P2 )
+		)
+		:effect
+		(and
+			(increase (total-cost) 1)
+			( BLANK_P1_P2 )
+			( AT_T4_P1_P3 )
+			(not ( BLANK_P1_P3 ))
+			(not ( AT_T4_P1_P2 ))
+		)
+	)
+	(:action MOVE-UP_T3_P1_P2_P3
+		:parameters ()
+		:precondition
+		(and
+			( BLANK_P1_P3 )
+			( AT_T3_P1_P2 )
+		)
+		:effect
+		(and
+			(increase (total-cost) 1)
+			( BLANK_P1_P2 )
+			( AT_T3_P1_P3 )
+			(not ( BLANK_P1_P3 ))
+			(not ( AT_T3_P1_P2 ))
+		)
+	)
+	(:action MOVE-UP_T1_P2_P2_P3
+		:parameters ()
+		:precondition
+		(and
+			( BLANK_P2_P3 )
+			( AT_T1_P2_P2 )
+		)
+		:effect
+		(and
+			(increase (total-cost) 1)
+			( BLANK_P2_P2 )
+			( AT_T1_P2_P3 )
+			(not ( BLANK_P2_P3 ))
+			(not ( AT_T1_P2_P2 ))
+		)
+	)
+	(:action MOVE-UP_T1_P1_P2_P3
+		:parameters ()
+		:precondition
+		(and
+			( BLANK_P1_P3 )
+			( AT_T1_P1_P2 )
+		)
+		:effect
+		(and
+			(increase (total-cost) 1)
+			( BLANK_P1_P2 )
+			( AT_T1_P1_P3 )
+			(not ( BLANK_P1_P3 ))
+			(not ( AT_T1_P1_P2 ))
+		)
+	)
+	(:action MOVE-DOWN_T8_P3_P3_P2
+		:parameters ()
+		:precondition
+		(and
+			( BLANK_P3_P2 )
+			( AT_T8_P3_P3 )
+		)
+		:effect
+		(and
+			(increase (total-cost) 1)
+			( BLANK_P3_P3 )
+			( AT_T8_P3_P2 )
+			(not ( BLANK_P3_P2 ))
+			(not ( AT_T8_P3_P3 ))
+		)
+	)
+	(:action MOVE-DOWN_T5_P3_P2_P1
+		:parameters ()
+		:precondition
+		(and
+			( BLANK_P3_P1 )
+			( AT_T5_P3_P2 )
+		)
+		:effect
+		(and
+			(increase (total-cost) 1)
+			( BLANK_P3_P2 )
+			( AT_T5_P3_P1 )
+			(not ( BLANK_P3_P1 ))
+			(not ( AT_T5_P3_P2 ))
+		)
+	)
+	(:action MOVE-LEFT_T4_P2_P1_P3
+		:parameters ()
+		:precondition
+		(and
+			( BLANK_P3_P1 )
+			( AT_T4_P2_P1 )
+		)
+		:effect
+		(and
+			(increase (total-cost) 1)
+			( BLANK_P2_P1 )
+			( AT_T4_P3_P1 )
+			(not ( BLANK_P3_P1 ))
+			(not ( AT_T4_P2_P1 ))
+		)
+	)
+	(:action MOVE-LEFT_T3_P2_P1_P3
+		:parameters ()
+		:precondition
+		(and
+			( BLANK_P3_P1 )
+			( AT_T3_P2_P1 )
+		)
+		:effect
+		(and
+			(increase (total-cost) 1)
+			( BLANK_P2_P1 )
+			( AT_T3_P3_P1 )
+			(not ( BLANK_P3_P1 ))
+			(not ( AT_T3_P2_P1 ))
+		)
+	)
+	(:action MOVE-LEFT_T2_P2_P1_P3
+		:parameters ()
+		:precondition
+		(and
+			( BLANK_P3_P1 )
+			( AT_T2_P2_P1 )
+		)
+		:effect
+		(and
+			(increase (total-cost) 1)
+			( BLANK_P2_P1 )
+			( AT_T2_P3_P1 )
+			(not ( BLANK_P3_P1 ))
+			(not ( AT_T2_P2_P1 ))
+		)
+	)
+	(:action MOVE-LEFT_T1_P2_P1_P3
+		:parameters ()
+		:precondition
+		(and
+			( BLANK_P3_P1 )
+			( AT_T1_P2_P1 )
+		)
+		:effect
+		(and
+			(increase (total-cost) 1)
+			( BLANK_P2_P1 )
+			( AT_T1_P3_P1 )
+			(not ( BLANK_P3_P1 ))
+			(not ( AT_T1_P2_P1 ))
+		)
+	)
+	(:action MOVE-RIGHT_T4_P2_P2_P1
+		:parameters ()
+		:precondition
+		(and
+			( BLANK_P1_P2 )
+			( AT_T4_P2_P2 )
+		)
+		:effect
+		(and
+			(increase (total-cost) 1)
+			( BLANK_P2_P2 )
+			( AT_T4_P1_P2 )
+			(not ( BLANK_P1_P2 ))
+			(not ( AT_T4_P2_P2 ))
+		)
+	)
+	(:action MOVE-UP_T3_P1_P1_P2
+		:parameters ()
+		:precondition
+		(and
+			( BLANK_P1_P2 )
+			( AT_T3_P1_P1 )
+		)
+		:effect
+		(and
+			(increase (total-cost) 1)
+			( BLANK_P1_P1 )
+			( AT_T3_P1_P2 )
+			(not ( BLANK_P1_P2 ))
+			(not ( AT_T3_P1_P1 ))
+		)
+	)
+	(:action MOVE-UP_T1_P2_P1_P2
+		:parameters ()
+		:precondition
+		(and
+			( BLANK_P2_P2 )
+			( AT_T1_P2_P1 )
+		)
+		:effect
+		(and
+			(increase (total-cost) 1)
+			( BLANK_P2_P1 )
+			( AT_T1_P2_P2 )
+			(not ( BLANK_P2_P2 ))
+			(not ( AT_T1_P2_P1 ))
+		)
+	)
+	(:action MOVE-UP_T1_P1_P1_P2
+		:parameters ()
+		:precondition
+		(and
+			( BLANK_P1_P2 )
+			( AT_T1_P1_P1 )
+		)
+		:effect
+		(and
+			(increase (total-cost) 1)
+			( BLANK_P1_P1 )
+			( AT_T1_P1_P2 )
+			(not ( BLANK_P1_P2 ))
+			(not ( AT_T1_P1_P1 ))
+		)
+	)
+	(:action MOVE-DOWN_T7_P2_P3_P2
+		:parameters ()
+		:precondition
+		(and
+			( BLANK_P2_P2 )
+			( AT_T7_P2_P3 )
+		)
+		:effect
+		(and
+			(increase (total-cost) 1)
+			( BLANK_P2_P3 )
+			( AT_T7_P2_P2 )
+			(not ( BLANK_P2_P2 ))
+			(not ( AT_T7_P2_P3 ))
+		)
+	)
+	(:action MOVE-DOWN_T6_P1_P3_P2
+		:parameters ()
+		:precondition
+		(and
+			( BLANK_P1_P2 )
+			( AT_T6_P1_P3 )
+		)
+		:effect
+		(and
+			(increase (total-cost) 1)
+			( BLANK_P1_P3 )
+			( AT_T6_P1_P2 )
+			(not ( BLANK_P1_P2 ))
+			(not ( AT_T6_P1_P3 ))
+		)
+	)
+	(:action MOVE-DOWN_T4_P2_P2_P1
+		:parameters ()
+		:precondition
+		(and
+			( BLANK_P2_P1 )
+			( AT_T4_P2_P2 )
+		)
+		:effect
+		(and
+			(increase (total-cost) 1)
+			( BLANK_P2_P2 )
+			( AT_T4_P2_P1 )
+			(not ( BLANK_P2_P1 ))
+			(not ( AT_T4_P2_P2 ))
+		)
+	)
+	(:action MOVE-LEFT_T3_P1_P1_P2
+		:parameters ()
+		:precondition
+		(and
+			( BLANK_P2_P1 )
+			( AT_T3_P1_P1 )
+		)
+		:effect
+		(and
+			(increase (total-cost) 1)
+			( BLANK_P1_P1 )
+			( AT_T3_P2_P1 )
+			(not ( BLANK_P2_P1 ))
+			(not ( AT_T3_P1_P1 ))
+		)
+	)
+	(:action MOVE-LEFT_T1_P1_P1_P2
+		:parameters ()
+		:precondition
+		(and
+			( BLANK_P2_P1 )
+			( AT_T1_P1_P1 )
+		)
+		:effect
+		(and
+			(increase (total-cost) 1)
+			( BLANK_P1_P1 )
+			( AT_T1_P2_P1 )
+			(not ( BLANK_P2_P1 ))
+			(not ( AT_T1_P1_P1 ))
+		)
+	)
+	(:action MOVE-RIGHT_T2_P3_P1_P2
+		:parameters ()
+		:precondition
+		(and
+			( BLANK_P2_P1 )
+			( AT_T2_P3_P1 )
+		)
+		:effect
+		(and
+			(increase (total-cost) 1)
+			( BLANK_P3_P1 )
+			( AT_T2_P2_P1 )
+			(not ( BLANK_P2_P1 ))
+			(not ( AT_T2_P3_P1 ))
+		)
+	)
+	(:action MOVE-DOWN_T3_P1_P2_P1
+		:parameters ()
+		:precondition
+		(and
+			( BLANK_P1_P1 )
+			( AT_T3_P1_P2 )
+		)
+		:effect
+		(and
+			(increase (total-cost) 1)
+			( BLANK_P1_P2 )
+			( AT_T3_P1_P1 )
+			(not ( BLANK_P1_P1 ))
+			(not ( AT_T3_P1_P2 ))
+		)
+	)
+	(:action MOVE-RIGHT_T1_P2_P1_P1
+		:parameters ()
+		:precondition
+		(and
+			( BLANK_P1_P1 )
+			( AT_T1_P2_P1 )
+		)
+		:effect
+		(and
+			(increase (total-cost) 1)
+			( BLANK_P2_P1 )
+			( AT_T1_P1_P1 )
+			(not ( BLANK_P1_P1 ))
+			(not ( AT_T1_P2_P1 ))
 		)
 	)
 
