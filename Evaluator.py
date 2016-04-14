@@ -5,6 +5,8 @@ from utils import PriorityQueue
 from problem_class import Problem
 import copy, numpy
 from gurobipy import *
+import operator
+import functools
 
 ### evaluator class ###
 
@@ -45,16 +47,19 @@ class Evaluator(Problem):
             l1norm = numpy.linalg.norm(v, ord=1)
             return l1norm
 
-
-    def heuristic_milp(self, state):
-
+    def heuristic_calculator(self, state, cost_function, isInteger):
+        '''
+        Method for calculating heuristics by solving optimization problems via Gurobi
+        ''' 
         m = Model("milp")
         m.modelSense = GRB.MINIMIZE
 
         variables = {}
         for action in self.listOfActions:
-            variables[action[0]] = m.addVar(vtype=GRB.INTEGER, lb=0, name=action[0])
-
+            if isInteger:
+              variables[action[0]] = m.addVar(vtype=GRB.INTEGER, lb=0, name=action[0])
+            else:
+              variables[action[0]] = m.addVar(vtype=GRB.CONTINUOUS, lb=0, name=action[0])
         m.update()
 
         current   = zeros(len(self.goalCompliantConditions),1)
@@ -67,7 +72,7 @@ class Evaluator(Problem):
         for gc_var in self.goalCompliantConditions:
             m.addConstr(quicksum(self.M[self.goalCompliantConditions.index(gc_var), self.listOfActions.index(action)]*variables[action[0]] for action in self.listOfActions) >= delta[self.goalCompliantConditions.index(gc_var)])
 
-        m.setObjective(self.__cost_function_milp__(variables))
+        m.setObjective(cost_function(variables))
         m.params.OutputFlag = 0
         m.optimize()
     
@@ -85,9 +90,20 @@ class Evaluator(Problem):
     def heuristic_trivial(self, state):
         return 0.0
 
-
+    ''' MILP evaluation '''
+    def heuristic_milp(self, state):
+      return self.heuristic_calculator(state, self.__cost_function_milp__, True)
+    
     def __cost_function_milp__(self, variables):
         K = 1.0
         expr = K*quicksum(variables[action[0]] for action in self.listOfActions)
         return expr
-
+    
+    ''' Real valued linear program with l1 norm '''
+    def heuristic_real_l1(self, state):
+      return self.heuristic_calculator(state, self.__cost_real_l1__, False)
+      
+    def __cost_real_l1__(self, variables):
+        K = 1.0
+        expr = K*quicksum(variables[action[0]] for action in self.listOfActions)
+        return expr
