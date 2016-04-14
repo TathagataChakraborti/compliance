@@ -162,22 +162,24 @@ class readPDDL:
 
         problem_file.close()
     
-        self.compliantConditions = copy.deepcopy(listOfPredicates)
-        for action in listOfActions:
+        self.compliantConditions = copy.deepcopy(self.variableList)
+        for action in self.operatorList:
             for effect in action[1]:
                 if -1 in effect[1]:
                     try:
-                        self.compliantConditions.remove(listOfPredicates[effect[0]])
+                        self.compliantConditions.remove(self.variableList[effect[0]])
                     except:
                         pass
-                
-        self.goalCompliantConditions = copy.deepcopy(self.compliantConditions)
-        for predicate in goalState:
+        
+        for predicate in self.goalState:
             if predicate == 0:
                 try:
-                    self.goalCompliantConditions.remove(listOfPredicates[predicate])
+                    self.goalCompliantConditions.remove(self.variableList[predicate])
                 except:
                     pass
+
+        #self.compliantConditions     = copy.deepcopy(self.variableList)
+        #self.goalCompliantConditions = copy.deepcopy(self.compliantConditions)
 
 
     def printOutput(self):
@@ -204,6 +206,11 @@ class readPDDL:
             for effect in effectList:
                 print self.__return_variable_ID__(effect[0]) + ' :: ' + str(effect[1][0]) + ' (' +  self.__return_variable_name__(effect[0],effect[1][0])  + ')' + ' --> ' + str(effect[1][1]) + ' (' + self.__return_variable_name__(effect[0],effect[1][1]) + ')'
             print
+
+        print bcolors.OKGREEN + '-> Goal Compliant Variables...' + bcolors.ENDC
+        for var in self.goalCompliantConditions:
+            print var[0] + ' : ' + ' , '.join([temp for temp in var[1]])
+
 
 
     def returnParsedData(self):

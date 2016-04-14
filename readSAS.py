@@ -108,8 +108,8 @@ class readSAS:
             except:
                 pass
 
-        self.compliantConditions     = copy.deepcopy(self.variableList)
-        self.goalCompliantConditions = copy.deepcopy(self.compliantConditions)
+        #self.compliantConditions     = copy.deepcopy(self.variableList)
+        #self.goalCompliantConditions = copy.deepcopy(self.compliantConditions)
 
 
     def printOutput(self):
@@ -137,6 +137,10 @@ class readSAS:
                 print self.__return_variable_ID__(effect[0]) + ' :: ' + str(effect[1][0]) + ' (' +  self.__return_variable_name__(effect[0],effect[1][0])  + ')' + ' --> ' + str(effect[1][1]) + ' (' + self.__return_variable_name__(effect[0],effect[1][1]) + ')'
             print
                 
+        print bcolors.OKGREEN + '-> Goal Compliant Variables...' + bcolors.ENDC
+        for var in self.goalCompliantConditions:
+            print var[0] + ' : ' + ' , '.join([temp for temp in var[1]])
+
     def returnParsedData(self):
         return [self.variableList, self.initState, self.goalState, self.operatorList, self.compliantConditions, self.goalCompliantConditions]
 

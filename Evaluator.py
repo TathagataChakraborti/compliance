@@ -70,7 +70,7 @@ class Evaluator(Problem):
         delta     = (goal - current)
         
         for gc_var in self.goalCompliantConditions:
-            m.addConstr(quicksum(self.M[self.goalCompliantConditions.index(gc_var), self.listOfActions.index(action)]*variables[action[0]] for action in self.listOfActions) >= delta[self.goalCompliantConditions.index(gc_var)])
+            m.addConstr(quicksum(self.M[self.goalCompliantConditions.index(gc_var), self.listOfActions.index(action)]*variables[action[0]] for action in self.listOfActions) == delta[self.goalCompliantConditions.index(gc_var)])
 
         m.setObjective(cost_function(variables))
         m.params.OutputFlag = 0
