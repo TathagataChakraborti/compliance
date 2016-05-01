@@ -1,6 +1,7 @@
 #!/usr/bin/python
 import os, sys, copy
 from utils import bcolors
+import random
 
 #### SAS parser class ####
 
@@ -60,7 +61,8 @@ class readSAS:
             if 'begin_goal' in newline:
 
                 print bcolors.OKBLUE + '\t-> ...\n\t-> Reading goal state...\n\t-> ...' + bcolors.ENDC
-                self.goalState = copy.deepcopy(self.initState)
+                
+                self.goalState = [-1 for i in range(len(self.initState))]#copy.deepcopy(self.initState)
                 newline        = sas_file.readline().strip()
                 newline        = sas_file.readline().strip()
                 goal_cache     = []
@@ -69,7 +71,14 @@ class readSAS:
                     goal_cache.append(int(temp[0]))
                     self.goalState[int(temp[0])] = int(temp[1])
                     newline    = sas_file.readline().strip()
-
+                #for v_i in range(len(self.goalState)):
+                #    goal_cache.append(v_i)
+#                for v_i in range(len(self.goalState)):
+#                    if v_i in goal_cache_tmp:
+#                       goal_cache.append(v_i)
+#                    else:
+#                       self.goalState[v_i] =  random.randint(0,len(self.variableList[v_i][1]))
+#                       goal_cache.append(v_i)
             if 'begin_operator' in newline:
 
                 print bcolors.OKBLUE + '\t-> Reading new operator...' + bcolors.ENDC

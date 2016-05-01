@@ -38,7 +38,7 @@ class Problem:
     def isGoalState(self, state):
 
         for idx in range(len(self.listOfPredicates)):
-            if self.goalState[idx] > 0 and state[idx] != self.goalState[idx]:
+            if self.goalState[idx] >= 0 and state[idx] != self.goalState[idx]:
                 return False
 
         return True
